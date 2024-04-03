@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: const Color(0xFF2f4f4f),
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
       ),
       home: const SearchPage(),
     );
