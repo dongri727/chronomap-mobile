@@ -1,3 +1,5 @@
+import 'package:chronomap_mobile/timeline/scalable.dart';
+import 'package:chronomap_mobile/utils/button.dart';
 import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
 import 'main.dart';
@@ -27,6 +29,18 @@ class SearchPageState extends State<SearchPage> {
     }
   }
 
+  void _onScalablePressed() async {
+    await fetchPrincipalByLocation(searchController.text);
+    if (listPrincipal.isNotEmpty) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scalable(principal: listPrincipal),
+          ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +53,32 @@ class SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: searchController,
-              decoration: InputDecoration(
-                labelText: 'Witch Country?',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () => fetchPrincipalByLocation(searchController.text),
-                ),
+              decoration: const InputDecoration(
+                labelText: "Witch Country's History do you search?",
               ),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('VIEW CHOICE'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ButtonFormat(
+                    label: 'CLASSIC',
+                    onPressed: () => fetchPrincipalByLocation(searchController.text),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ButtonFormat(
+                    label: 'SCALABLE',
+                    onPressed: _onScalablePressed),
+              )
+            ],
           ),
           Expanded( // ListView.builderをExpandedで囲むことで、利用可能なスペースを埋めます
             child: ListView.builder(
@@ -73,10 +105,6 @@ class SearchPageState extends State<SearchPage> {
           ),
         ],
       ),
-/*      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => fetchPrincipalByLocation(searchController.text), // TextFieldからテキストを取得して検索を実行
-        label: const Text('SEARCH'),
-      ),*/
     );
   }
 }
