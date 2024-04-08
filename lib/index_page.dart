@@ -9,55 +9,55 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Index'),
+        title: const Text('四次元年表 for mobile'),
       ),
       body: Center(
         child: Column(
           children: [
-            const Expanded(
-              flex: 1,
-              child: SizedBox(
-                height: 300,
-              ),
-            ),
-            Expanded(
-                flex: 4,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push<String>(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterPage(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Registration",
+
+            Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text('This is a simplified version of\n'
+                      '"When-Where-What-Databese".\n'
+                      'The full version is available for use\n'
+                      'on computers and tablets.\n'
+                      'https://app.laporte.academy'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push<String>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterPage(),
                         ),
-                      ),
+                      );
+                    },
+                    child: const Text(
+                      "Registration",
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push<String>(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchPage(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Search & View",
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push<String>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(),
                         ),
-                      ),
+                      );
+                    },
+                    child: const Text(
+                      "Search & View",
                     ),
-                  ],
-                )
+                  ),
+                ),
+              ],
             ),],
         ),
       ),
