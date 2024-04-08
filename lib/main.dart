@@ -1,9 +1,10 @@
 import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_mobile/search_page.dart';
 import 'package:chronomap_mobile/timeline/bloc_provider.dart';
 import 'package:chronomap_mobile/timeline/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+
+import 'index_page.dart';
 
 var client = Client('https://api.laporte.academy/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           colorSchemeSeed: const Color(0xFF2f4f4f),
           brightness: Brightness.light,
         ),
-        home: const SearchPage(),
+        home: const IndexPage(),
       ),
     );
   }

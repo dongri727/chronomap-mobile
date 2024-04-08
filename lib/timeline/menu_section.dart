@@ -14,8 +14,8 @@ class MenuSection extends StatelessWidget {
   final NavigateTo navigateTo;
 
   const MenuSection(this.title, this.backgroundColor, this.accentColor,
-      this.menuOptions, this.navigateTo,
-      {super.key});
+      this.menuOptions, this.navigateTo, {super.key}
+     );
 
   @override
   Widget build(BuildContext context) {

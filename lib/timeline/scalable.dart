@@ -61,7 +61,7 @@ class ScalableState extends State<Scalable> {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
     final timeline = BlocProvider.getTimeline(context);
 
-    String displayText;
+/*    String displayText;
     if (widget.principal!.isNotEmpty) {
       displayText = widget.principal![0].affair;
       if (widget.principal!.length > 1) {
@@ -69,7 +69,7 @@ class ScalableState extends State<Scalable> {
       }
     } else {
       displayText = '';
-    }
+    }*/
 
     return Scaffold(
         appBar: AppBar(
@@ -92,18 +92,18 @@ class ScalableState extends State<Scalable> {
               children: <Widget>[
                 Row(
                   children: [
-                    Expanded(
+/*                    Expanded(
                       flex: 5,
                       child: Padding(
                           padding: const EdgeInsets.fromLTRB(20, 20, 5, 20),
                           child: ConfirmText(
                             confirmText: displayText,
-                            confirmColor: Colors.yellow,
+                            confirmColor: Colors.black,
                           )
                       ),
-                    ),
+                    ),*/
                     Expanded(
-                      flex: 2,
+                      //flex: 2,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(5, 20, 20, 20),
                         child: ElevatedButton(
