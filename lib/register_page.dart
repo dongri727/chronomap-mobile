@@ -11,6 +11,9 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends State<RegisterPage> {
 
+  //todo 年代区分、年月日、国、出来事、の４項目を入力する。
+  //todo 国についてはリストを用意し、オートコンプリートを使用する。
+
   TextEditingController whatController = TextEditingController(); // 検索キーワードを入力するためのController
 
 
@@ -26,6 +29,7 @@ class RegisterPageState extends State<RegisterPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
+            //todo
             child: TextField(
               controller: whatController,
               decoration: const InputDecoration(

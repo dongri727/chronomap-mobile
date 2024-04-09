@@ -19,8 +19,9 @@ class IndexPage extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.all(20.0),
+                  // todo テキストをかっこよくする。
                   child: Text('This is a simplified version of\n'
-                      '"When-Where-What-Databese".\n'
+                      '"When-Where-What-Database".\n'
                       'The full version is available for use\n'
                       'on computers and tablets.\n'
                       'https://app.laporte.academy'),
