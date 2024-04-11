@@ -94,12 +94,6 @@ class SearchPageState extends State<SearchPage> {
                       listPrincipal[index].affair,
                       style: const TextStyle(fontSize: 11),
                     ),
-                    //TEST
-                    subtitle: Text(
-                      'Test',
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                    //TEST
                     trailing: Text(
                       '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
                       style: const TextStyle(fontSize: 11),
