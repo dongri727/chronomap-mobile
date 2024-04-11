@@ -96,7 +96,7 @@ class SearchPageState extends State<SearchPage> {
                         const SizedBox(height: 4,),
                         Text(listPrincipal[index].affair, style: const TextStyle(fontSize: 16)),
                         const SizedBox(height: 2,),
-                        Text('${listPrincipal[index].location}, ${listPrincipal[index].precise}',style: TextStyle(fontSize: 12),),
+                        Text('${listPrincipal[index].location}, ${listPrincipal[index].precise}',style: const TextStyle(fontSize: 12),),
                       ],
                     ),
                   ),
