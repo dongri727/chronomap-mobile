@@ -23,6 +23,7 @@ class SearchPageState extends State<SearchPage> {
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       print("Getting principal with keywords: $location");
       principalIds = listPrincipal.map((item) => item.id as int).toList();
+      print(listPrincipal.toString());
       setState(() {}); // データの更新をUIに反映させる
     } on Exception catch (e) {
       debugPrint('$e');
@@ -85,18 +86,18 @@ class SearchPageState extends State<SearchPage> {
               itemCount: listPrincipal.length,
               itemBuilder: (context, index) {
                 return Card(
-                  child: ListTile(
-                    leading: Text(
-                      '${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                    title: Text(
-                      listPrincipal[index].affair,
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                    trailing: Text(
-                      '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
-                      style: const TextStyle(fontSize: 11),
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',style: const TextStyle(fontSize: 14),),
+                        const SizedBox(height: 4,),
+                        Text(listPrincipal[index].affair, style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 2,),
+                        Text('${listPrincipal[index].location}, ${listPrincipal[index].precise}',style: const TextStyle(fontSize: 12),),
+                      ],
                     ),
                   ),
                 );
