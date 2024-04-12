@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/shadowed_container.dart';
 import 'pont_data.dart';
 
 typedef NavigateTo = Function(MenuItemData item, BuildContext context);
@@ -36,21 +37,23 @@ class MenuSection extends StatelessWidget {
         child: Column(
           children: menuOptions.map<Widget>((item) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(20,8,20,8),
-              child: ListTile(
-                tileColor: backgroundColor,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                title: Text(
-                  item.label,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: accentColor,
-                    fontSize: 18.0,
+              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+              child: ShadowedContainer(
+                child: ListTile(
+                  tileColor: backgroundColor,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
+                  title: Text(
+                    item.label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: accentColor,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  onTap: () => navigateTo(item, context),
                 ),
-                onTap: () => navigateTo(item, context),
               ),
             );
           }).toList(),

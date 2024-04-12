@@ -1,7 +1,10 @@
 import "package:acorn_client/acorn_client.dart";
 import "package:chronomap_mobile/search_page.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "../utils/confirm_text.dart";
+import "../utils/shadowed_container.dart";
 import 'bloc_provider.dart';
 import 'pont_data.dart';
 import "menu_section.dart";
@@ -90,51 +93,34 @@ class ScalableState extends State<Scalable> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  children: [
-/*                    Expanded(
-                      flex: 5,
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 20, 5, 20),
-                          child: ConfirmText(
-                            confirmText: displayText,
-                            confirmColor: Colors.black,
-                          )
-                      ),
-                    ),*/
-                    Expanded(
-                      //flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 20, 20, 20),
-                        child: ElevatedButton(
-                            child: const Text(
-                              "1. SUBMIT",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                              ),
-                            ),
-                            onPressed: () {
-                              timeline.gatherEntries(widget.principal);
-                            }
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ShadowedContainer(
+                    child: TextButton(
+                        child: const Text(
+                          "1. SUBMIT",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
+                        onPressed: () {
+                          timeline.gatherEntries(widget.principal);
+                        }
                     ),
-                  ],
+                  ),
                 ),
                 ..._menu.sections
                     .map<Widget>(
                         (MenuSectionData section) => Builder(builder: (context) {
-                      return Container(
-                          margin: const EdgeInsets.only(top: 20.0),
-                          child: MenuSection(
-                            section.label,
-                            section.backgroundColor,
-                            section.textColor,
-                            section.items,
-                                (item, context) =>
-                                navigateToTimeline(item, context),
-                          ));
+                      return MenuSection(
+                        section.label,
+                        section.backgroundColor,
+                        section.textColor,
+                        section.items,
+                            (item, context) =>
+                            navigateToTimeline(item, context),
+                      );
                     }))
                     //.toList(growable: false)
               ]),

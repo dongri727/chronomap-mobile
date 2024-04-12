@@ -43,13 +43,13 @@ class MenuData {
     List<MenuSectionData> menu = [];
     MenuSectionData menuSection = MenuSectionData();
 
-    menuSection.label = "2. Select Initial Display Era,  You can move, zoom freely after the transition";
+    menuSection.label = " ";
     //menuSection.backgroundColor = const Color(0xFF2f4f4f); // Adjusted the color format
     //menuSection.textColor = const Color(0xFF9acd32); // Adjusted the color format
 
     // Items
     List<MenuItemData> items = [
-      MenuItemData()..label = "SHOW ALL"..start = -5100000000000..end = 800000,
+      MenuItemData()..label = "2.SHOW ALL"..start = -5100000000000..end = 800000,
 /*      MenuItemData()..label = "Billion Years Ago"..start = -5100000000000..end = -366000000000,
       MenuItemData()..label = "Million Years Ago"..start = -366000000000..end = -366000000,
       MenuItemData()..label = "Thousand Years Ago"..start = -366000000..end = -366000,
