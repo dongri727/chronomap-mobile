@@ -85,9 +85,40 @@ class ScalableState extends State<Scalable> {
               );
             },
           ),
-
           title: const Text("SCALABLE"),
         ),
+        endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            Container(
+              height: 70,
+              child: const DrawerHeader(
+                child: Text('VIEW CHOICE',style: TextStyle(fontSize: 18),),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: ListTile(
+                // leading: Icon(Icons.circle,),
+                title: const Text('CLASSIC'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+            child: ListTile(
+              // leading: Icon(Icons.settings),
+              title: const Text('SCALABLE'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),),
+            // More ListTiles...
+          ],
+        ),
+      ),
         body: Padding(
           padding: EdgeInsets.only(top: devicePadding.top),
           child: Column(
