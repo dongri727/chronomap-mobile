@@ -1,3 +1,5 @@
+import 'package:chronomap_mobile/index_page.dart';
+import 'package:chronomap_mobile/utils/navi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
 import 'main.dart';
@@ -23,6 +25,11 @@ class RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const NavigationButton(
+          destinationPage: IndexPage(),
+          buttonText: 'index',
+        ),
+        leadingWidth: 80,
         title: const Text('Register an Event'),
       ),
       body: Column( // Columnウィジェットを使用して、TextFieldとListView.builderを縦に並べます

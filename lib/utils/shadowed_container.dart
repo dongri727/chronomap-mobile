@@ -19,7 +19,7 @@ class ShadowedContainer extends StatelessWidget {
               color: Colors.grey,
               spreadRadius: 1.0,
               blurRadius: 10.0,
-              offset: Offset(10, 10),
+              offset: Offset(5, 5),
             )
           ]
       ),
