@@ -3,6 +3,7 @@ import 'package:chronomap_mobile/utils/button.dart';
 import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
 import 'main.dart';
+import 'utils/countries_list.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -44,23 +45,16 @@ class SearchPageState extends State<SearchPage> {
   }
 
   List<String> options = [];
-  void fetchOptions() async {
-    List<Principal> optionsPrincipal = [];
-    try {
-      optionsPrincipal = await client.principal.getPrincipal(keywords: []);
-      optionsPrincipal.forEach((element) {
-        options.add(element.location);
-      });
-      options = options.toSet().toList();
-    } on Exception catch (e) {
-      debugPrint('$e');
+  void getOptions() {
+    for (var country in countries) {
+      options.add(country['name']);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    fetchOptions();
+    getOptions();
   }
 
   @override
