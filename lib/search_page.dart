@@ -14,7 +14,8 @@ class SearchPage extends StatefulWidget {
 class SearchPageState extends State<SearchPage> {
   List<Principal> listPrincipal = [];
   List<int> principalIds = [];
-  TextEditingController searchController = TextEditingController(); // 検索キーワードを入力するためのController
+  TextEditingController searchController =
+      TextEditingController(); // 検索キーワードを入力するためのController
 
   Future<void> fetchPrincipalByLocation(String keywords) async {
     try {
@@ -34,12 +35,32 @@ class SearchPageState extends State<SearchPage> {
     await fetchPrincipalByLocation(searchController.text);
     if (listPrincipal.isNotEmpty) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Scalable(principal: listPrincipal),
-          ),
+        context,
+        MaterialPageRoute(
+          builder: (context) => Scalable(principal: listPrincipal),
+        ),
       );
     }
+  }
+
+  List<String> options = [];
+  void fetchOptions() async {
+    List<Principal> optionsPrincipal = [];
+    try {
+      optionsPrincipal = await client.principal.getPrincipal(keywords: []);
+      optionsPrincipal.forEach((element) {
+        options.add(element.location);
+      });
+      options = options.toSet().toList();
+    } on Exception catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOptions();
   }
 
   @override
@@ -48,15 +69,19 @@ class SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: const Text('ChronoMap Search'),
       ),
-      body: Column( // Columnウィジェットを使用して、TextFieldとListView.builderを縦に並べます
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                labelText: "Witch Country's History do you search?",
-              ),
+            child: Autocomplete<String>(
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                return options.where((String option) {
+                  return option.contains(textEditingValue.text);
+                });
+              },
+              onSelected: (String selection) {
+                searchController.text = selection;
+              },
             ),
           ),
           Row(
@@ -69,41 +94,53 @@ class SearchPageState extends State<SearchPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonFormat(
-                    label: 'CLASSIC',
-                    onPressed: () => fetchPrincipalByLocation(searchController.text),
+                  label: 'CLASSIC',
+                  onPressed: () =>
+                      fetchPrincipalByLocation(searchController.text),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonFormat(
-                    label: 'SCALABLE',
-                    onPressed: _onScalablePressed),
+                    label: 'SCALABLE', onPressed: _onScalablePressed),
               )
             ],
           ),
-          Expanded( // ListView.builderをExpandedで囲むことで、利用可能なスペースを埋めます
-            child: ListView.builder(
-              itemCount: listPrincipal.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',style: const TextStyle(fontSize: 14),),
-                        const SizedBox(height: 4,),
-                        Text(listPrincipal[index].affair, style: const TextStyle(fontSize: 16)),
-                        const SizedBox(height: 2,),
-                        Text('${listPrincipal[index].location}, ${listPrincipal[index].precise}',style: const TextStyle(fontSize: 12),),
-                      ],
-                    ),
+          Expanded(
+              // ListView.builderをExpandedで囲むことで、利用可能なスペースを埋めます
+              child: ListView.builder(
+            itemCount: listPrincipal.length,
+            itemBuilder: (context, index) {
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(listPrincipal[index].affair,
+                          style: const TextStyle(fontSize: 16)),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ],
+                    // TEST
                   ),
-                );
-              },
-            )
-          ),
+                ),
+              );
+            },
+          )),
         ],
       ),
     );
