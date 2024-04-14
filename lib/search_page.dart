@@ -19,7 +19,7 @@ class SearchPageState extends State<SearchPage> {
       TextEditingController(); // 検索キーワードを入力するためのController
 
   Future<void> fetchPrincipalByLocation(String keywords) async {
-    try {
+    try { 
       // 文字列をリストに変換してkeywords引数を渡す
       List<String> location = keywords.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
@@ -70,7 +70,7 @@ class SearchPageState extends State<SearchPage> {
             child: Autocomplete<String>(
               optionsBuilder: (TextEditingValue textEditingValue) {
                 return options.where((String option) {
-                  return option.contains(textEditingValue.text);
+                  return option.contains(textEditingValue.text.toUpperCase());
                 });
               },
               onSelected: (String selection) {
@@ -129,7 +129,6 @@ class SearchPageState extends State<SearchPage> {
                         style: const TextStyle(fontSize: 12),
                       ),
                     ],
-                    // TEST
                   ),
                 ),
               );
