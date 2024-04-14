@@ -70,7 +70,11 @@ class SearchPageState extends State<SearchPage> {
             child: Autocomplete<String>(
               optionsBuilder: (TextEditingValue textEditingValue) {
                 return options.where((String option) {
-                  return option.contains(textEditingValue.text.toUpperCase());
+                  if(textEditingValue.text.isNotEmpty){
+                  return option.contains(textEditingValue.text[0].toUpperCase() + textEditingValue.text.substring(1).toLowerCase());
+                  }else {
+                    return option.contains(textEditingValue.text);
+                  }
                 });
               },
               onSelected: (String selection) {
