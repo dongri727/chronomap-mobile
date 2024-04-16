@@ -88,7 +88,7 @@ class GamePageState extends State<GamePage> {
                 !answered
                     ? const Text(
                         'Arrange items in chronological order',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 18),
                       )
                     : Text(
                         'Correct: $correctAnswer / Incorrect: $incorrectAnswer',
