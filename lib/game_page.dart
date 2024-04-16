@@ -9,7 +9,10 @@ class GamePage extends StatefulWidget {
 
 class GamePageState extends State<GamePage> {
   final List<int> _items = List<int>.generate(5, (int index) => index);
-  final List<String> _ansewrs = ['first', 'second', 'third', 'fourth', 'fifth'];
+  final Color correctColor = Colors.red.withOpacity(0.15);
+  final Color IncorrectColor = Colors.blue.withOpacity(0.15);
+  final List<String> ansewrs = ['first', 'second', 'third', 'fourth', 'fifth'];
+  final List<Color> colors = List.filled(5, Colors.grey.withOpacity(0.15));
   late List<String> _options;
   int correctAnswer = 0;
   int incorrectAnswer = 0;
@@ -17,63 +20,74 @@ class GamePageState extends State<GamePage> {
   @override
   initState() {
     super.initState();
-    _options = List<String>.from(_ansewrs)..shuffle();
+    _options = List<String>.from(ansewrs)..shuffle();
     print(_items);
-    print(_ansewrs);
+    print(ansewrs);
     print(_options);
+    print(colors);
   }
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
-    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
-
-    return Material(
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Game Page'),
+      ),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ReorderableListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            children: <Widget>[
-              for (int index = 0; index < _items.length; index += 1)
-                ListTile(
-                  key: Key('$index'),
-                  tileColor: _items[index].isOdd ? oddItemColor : evenItemColor,
-                  title: Text(_options[_items[index]]),
-                ),
-            ],
-            onReorder: (int oldIndex, int newIndex) {
-              setState(() {
-                if (oldIndex < newIndex) {
-                  newIndex -= 1;
-                }
-                final int item = _items.removeAt(oldIndex);
-                _items.insert(newIndex, item);
-              });
-            },
+          Material(
+            child: ReorderableListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              children: <Widget>[
+                for (int index = 0; index < _items.length; index += 1)
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 2),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // 枠線の色
+                        width: 1.0, // 枠線の幅
+                      ),
+                    ),
+                    key: Key('$index'),
+                    child: ListTile(
+                      tileColor: colors[index],
+                      title: Text(_options[_items[index]]),
+                    ),
+                  ),
+              ],
+              onReorder: (int oldIndex, int newIndex) {
+                setState(() {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  final int item = _items.removeAt(oldIndex);
+                  _items.insert(newIndex, item);
+                });
+              },
+            ),
           ),
           const SizedBox(
             height: 30,
           ),
           ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(colorScheme.primary),
-                  foregroundColor:
-                      MaterialStatePropertyAll(colorScheme.onPrimary)),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey, foregroundColor: Colors.white),
               onPressed: () {
                 correctAnswer = 0;
                 incorrectAnswer = 0;
                 for (int index = 0; index < _items.length; index += 1) {
                   print(
-                      'answer: ${_ansewrs[index]} / option: ${_options[_items[index]]}');
-                  if (_ansewrs[index] == _options[_items[index]]) {
+                      'answer: ${ansewrs[index]} / option: ${_options[_items[index]]}');
+                  if (ansewrs[index] == _options[_items[index]]) {
                     correctAnswer += 1;
+                    colors[index] = correctColor;
                   } else {
                     incorrectAnswer += 1;
+                    colors[index] = IncorrectColor;
                   }
                 }
                 setState(() {});
