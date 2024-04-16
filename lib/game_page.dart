@@ -11,6 +11,8 @@ class GamePageState extends State<GamePage> {
   final List<int> _items = List<int>.generate(5, (int index) => index);
   final List<String> _ansewrs = ['first', 'second', 'third', 'fourth', 'fifth'];
   late List<String> _options;
+  int correctAnswer = 0;
+  int incorrectAnswer = 0;
 
   @override
   initState() {
@@ -53,11 +55,34 @@ class GamePageState extends State<GamePage> {
               });
             },
           ),
-          TextButton(onPressed: (){
-            for (int index = 0; index < _items.length; index += 1) {
-                print('answer: ${_ansewrs[_items[index]]} / option: ${_options[_items[index]]}');
-              }
-            }, child: Text('Print the first item'))
+          const SizedBox(
+            height: 30,
+          ),
+          ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(colorScheme.primary),
+                  foregroundColor:
+                      MaterialStatePropertyAll(colorScheme.onPrimary)),
+              onPressed: () {
+                correctAnswer = 0;
+                incorrectAnswer = 0;
+                for (int index = 0; index < _items.length; index += 1) {
+                  print(
+                      'answer: ${_ansewrs[index]} / option: ${_options[_items[index]]}');
+                  if (_ansewrs[index] == _options[_items[index]]) {
+                    correctAnswer += 1;
+                  } else {
+                    incorrectAnswer += 1;
+                  }
+                }
+                setState(() {});
+              },
+              child: Text('Answer')),
+          const SizedBox(
+            height: 30,
+          ),
+          Text('Correct: $correctAnswer / Incorrect: $incorrectAnswer'),
         ],
       ),
     );
