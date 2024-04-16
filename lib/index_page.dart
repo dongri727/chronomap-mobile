@@ -1,5 +1,5 @@
 import 'package:chronomap_mobile/game_page.dart';
-import 'package:chronomap_mobile/register_page.dart';
+import 'package:chronomap_mobile/register/register_page.dart';
 import 'package:flutter/material.dart';
 import 'search_page.dart';
 
