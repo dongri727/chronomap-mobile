@@ -17,7 +17,8 @@ class GamePageState extends State<GamePage> {
   int incorrectAnswer = 0;
   bool answered = false;
 
-  final List<Color> backgroundColors = List.filled(5, Colors.grey.withOpacity(0.15));
+  final List<Color> backgroundColors =
+      List.filled(5, Colors.grey.withOpacity(0.15));
   final Color correctBackgroundColor = Colors.green.withOpacity(0.15);
   final List<Color> stringColors = List.filled(5, Colors.black);
   final Color incorrectStingColor = Colors.red;
@@ -50,7 +51,7 @@ class GamePageState extends State<GamePage> {
         backgroundColors[index] = correctBackgroundColor;
       } else {
         incorrectAnswer += 1;
-        stringColors [index] = incorrectStingColor;
+        stringColors[index] = incorrectStingColor;
       }
     }
     setState(() {});
@@ -112,7 +113,10 @@ class GamePageState extends State<GamePage> {
                           key: Key('$index'),
                           child: ListTile(
                             tileColor: backgroundColors[index],
-                            title: Text(options[_items[index]],style: TextStyle(color: stringColors[index]),),
+                            title: Text(
+                              options[_items[index]],
+                              style: TextStyle(color: stringColors[index]),
+                            ),
                           ),
                         ),
                     ],
@@ -130,26 +134,21 @@ class GamePageState extends State<GamePage> {
                 const SizedBox(
                   height: 40,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
+                !answered
+                    ? ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
+                            backgroundColor: Colors.grey[600],
                             foregroundColor: Colors.white,
                             elevation: 2),
                         onPressed: _answer,
-                        child: const Text('Answer')),
-                    const SizedBox(width: 30),
-                    ElevatedButton(
+                        child: const Text('Answer'))
+                    : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            foregroundColor: Colors.grey[700],
+                            foregroundColor: Colors.grey[800],
                             elevation: 2),
                         onPressed: _retry,
-                        child: const Text('Retry'))
-                  ],
-                ),
+                        child: const Text('Retry')),
               ],
             )
           : const Center(child: CircularProgressIndicator()),
