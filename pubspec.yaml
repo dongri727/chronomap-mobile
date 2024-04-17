@@ -36,6 +36,8 @@ dependencies:
       url: https://github.com/dongri727/acorn.git
       path: acorn_client
 
+  serverpod_auth_shared_flutter: ^1.2.6
+
   intl: ^0.18.1
   provider: ^6.0.1
 
