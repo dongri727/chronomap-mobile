@@ -184,9 +184,9 @@ class RegisterModel extends ChangeNotifier {
             principalId: principalId,
             annee: newAnnee,
             affair: newName,
-            location: location,
+            location: selectedCountry,
             precise: " ",
-            latitude: longitude,
+            latitude: latitude,
             longitude: longitude,
             logarithm: newLogarithm);
         await client.withMap.addWithMap(withMap);
@@ -196,7 +196,7 @@ class RegisterModel extends ChangeNotifier {
             principalId: principalId,
             annee: newAnnee,
             affair: newName,
-            location: location,
+            location: selectedCountry,
             precise: " ",
             xCoordinate: x3d,
             yCoordinate: y3d,
