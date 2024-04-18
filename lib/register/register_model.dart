@@ -4,6 +4,7 @@ import 'package:acorn_client/acorn_client.dart';
 import 'package:chronomap_mobile/main.dart';
 import 'package:chronomap_mobile/register/register_page.dart';
 import 'package:flutter/material.dart';
+import '../seerverpod_client.dart';
 import '../utils/countries_list.dart';
 import '../utils/period_list.dart';
 
@@ -29,7 +30,7 @@ class RegisterModel extends ChangeNotifier {
 
   List<String> periods = epoch; //時代選択肢
 
-  String location = ""; //位置情報（現在は国だけ）
+  //String location = ""; //位置情報（現在は国だけ）
 
   List<String> options = [];
 

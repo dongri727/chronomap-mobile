@@ -7,6 +7,7 @@ import 'package:acorn_client/acorn_client.dart';
 import 'package:flutter/widgets.dart';
 import 'index_page.dart';
 import 'main.dart';
+import 'seerverpod_client.dart';
 import 'utils/countries_list.dart';
 
 class SearchPage extends StatefulWidget {
