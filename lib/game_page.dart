@@ -1,6 +1,7 @@
 import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_mobile/main.dart';
 import 'package:flutter/material.dart';
+
+import 'seerverpod_client.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
