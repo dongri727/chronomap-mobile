@@ -199,9 +199,9 @@ class RegisterModel extends ChangeNotifier {
             affair: newName,
             location: selectedCountry,
             precise: " ",
-            xCoordinate: x3d,
-            yCoordinate: y3d,
-            zCoordinate: z3d,
+            xCoordinate: x3d * newCoefficient,
+            yCoordinate: y3d * newCoefficient,
+            zCoordinate: z3d * newCoefficient,
             coefficient: newCoefficient);
         await client.withGlobe.addWithGlobe(withGlobe);
 
