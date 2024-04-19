@@ -12,8 +12,8 @@ class GamePage extends StatefulWidget {
 
 class GamePageState extends State<GamePage> {
   final List<int> _items = List<int>.generate(5, (int index) => index);
-  final List<String> ansewrs = [];
-  List<String> options = [];
+  final List ansewrs = [];
+  List options = [];
   int correctAnswer = 0;
   int incorrectAnswer = 0;
   bool answered = false;
@@ -32,10 +32,17 @@ class GamePageState extends State<GamePage> {
       List<String> location = 'Japan'.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       principalIds = listPrincipal.map((item) => item.id as int).toList();
-      for (int index = 0; index < 5; index += 1) {
-        ansewrs.add(listPrincipal[index].affair);
+      // for (int index = 0; index < 5; index += 1) {
+      // ansewrs.add(listPrincipal[index].affair);
+      // }
+      for (var item in listPrincipal) {
+        if (item.annee.contains('CE ')) {
+          ansewrs.add([item.affair, item.annee.replaceFirst('CE ', '')]);
+        }
       }
-      options = List<String>.from(ansewrs)..shuffle();
+      print(ansewrs);
+      options = List.from(ansewrs)..shuffle();
+      // print(listPrincipal.toString());
       setState(() {});
     } on Exception catch (e) {
       debugPrint('$e');
@@ -66,7 +73,7 @@ class GamePageState extends State<GamePage> {
     correctAnswer = 0;
     incorrectAnswer = 0;
     answered = false;
-    options = List<String>.from(ansewrs)..shuffle();
+    options = List.from(ansewrs)..shuffle();
     setState(() {});
   }
 
@@ -116,7 +123,7 @@ class GamePageState extends State<GamePage> {
                           child: ListTile(
                             tileColor: backgroundColors[index],
                             title: Text(
-                              options[_items[index]],
+                              options[_items[index]].toString(),
                               style: TextStyle(color: stringColors[index]),
                             ),
                           ),
