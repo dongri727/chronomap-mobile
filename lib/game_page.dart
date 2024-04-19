@@ -81,7 +81,7 @@ class GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Game Page'),
+        title: const Text('Game'),
       ),
       body: options.isNotEmpty
           ? Column(
@@ -89,7 +89,8 @@ class GamePageState extends State<GamePage> {
               children: [
                 !answered
                     ? const Text(
-                        'Arrange items in chronological order',
+                        'Arrange items in chronological order\n'
+                        'カードを正しい順序に並べ替えてください',
                         style: TextStyle(fontSize: 18),
                       )
                     : Text(

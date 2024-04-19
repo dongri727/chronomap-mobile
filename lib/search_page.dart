@@ -71,7 +71,7 @@ class SearchPageState extends State<SearchPage> {
           buttonText: 'index',
         ),
         leadingWidth: 80,
-        title: const Text('ChronoMap Search'),
+        title: const Text('国名で検索できます'),
       ),
       endDrawer: Drawer(
         child: ListView(
