@@ -1,6 +1,4 @@
-import 'package:chronomap_mobile/index_page.dart';
 import 'package:chronomap_mobile/register/register_model.dart';
-import 'package:chronomap_mobile/utils/navi_button.dart';
 import 'package:chronomap_mobile/utils/textformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,11 +14,6 @@ class RegisterPage extends StatelessWidget {
         child: Consumer<RegisterModel>(builder: (_, model, child) {
           return Scaffold(
             appBar: AppBar(
-              leading: const NavigationButton(
-                destinationPage: IndexPage(),
-                buttonText: 'index',
-              ),
-              leadingWidth: 80,
               title: const Text('入力'),
             ),
             floatingActionButton: FloatingActionButton.extended(

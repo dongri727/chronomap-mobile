@@ -1,13 +1,7 @@
 import 'package:chronomap_mobile/timeline/scalable.dart';
-import 'package:chronomap_mobile/utils/button.dart';
-import 'package:chronomap_mobile/utils/navi_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
-import 'package:flutter/widgets.dart';
-import 'index_page.dart';
-import 'main.dart';
-import 'seerverpod_client.dart';
+import 'serverpod_client.dart';
 import 'utils/countries_list.dart';
 
 class SearchPage extends StatefulWidget {
@@ -66,11 +60,6 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const NavigationButton(
-          destinationPage: IndexPage(),
-          buttonText: 'index',
-        ),
-        leadingWidth: 80,
         title: const Text('国名で検索できます'),
       ),
       endDrawer: Drawer(

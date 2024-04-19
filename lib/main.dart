@@ -4,7 +4,7 @@ import 'package:chronomap_mobile/timeline/bloc_provider.dart';
 import 'package:chronomap_mobile/timeline/timeline.dart';
 import 'package:flutter/material.dart';
 
-import 'seerverpod_client.dart';
+import 'serverpod_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
