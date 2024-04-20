@@ -12,7 +12,7 @@ class GamePage extends StatefulWidget {
 
 class GamePageState extends State<GamePage> {
   final List<int> _items = List<int>.generate(5, (int index) => index);
-  final List ansewrs = [];
+  List ansewrs = [];
   List options = [];
   int correctAnswer = 0;
   int incorrectAnswer = 0;
@@ -32,17 +32,20 @@ class GamePageState extends State<GamePage> {
       List<String> location = 'Japan'.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       principalIds = listPrincipal.map((item) => item.id as int).toList();
-      // for (int index = 0; index < 5; index += 1) {
-      // ansewrs.add(listPrincipal[index].affair);
-      // }
       for (var item in listPrincipal) {
-        if (item.annee.contains('CE ')) {
-          ansewrs.add([item.affair, item.annee.replaceFirst('CE ', '')]);
+        if (item.annee.contains('CE')) {
+          options.add([item.affair, int.parse(item.annee.replaceFirst('CE ', ''))]);
         }
       }
+      options = List.from(options)..shuffle();
+      options = options.sublist(0, 5);
+
+      ansewrs = List.from(options);
+      ansewrs.sort((a, b) => a[1].compareTo(b[1]));
+
+      print(options);
       print(ansewrs);
-      options = List.from(ansewrs)..shuffle();
-      // print(listPrincipal.toString());
+
       setState(() {});
     } on Exception catch (e) {
       debugPrint('$e');
@@ -73,7 +76,7 @@ class GamePageState extends State<GamePage> {
     correctAnswer = 0;
     incorrectAnswer = 0;
     answered = false;
-    options = List.from(ansewrs)..shuffle();
+    options.shuffle();
     setState(() {});
   }
 
@@ -81,7 +84,6 @@ class GamePageState extends State<GamePage> {
   initState() {
     super.initState();
     fetchPrincipalByLocation();
-    print(ansewrs);
   }
 
   @override
