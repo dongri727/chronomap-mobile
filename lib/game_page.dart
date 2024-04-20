@@ -1,7 +1,7 @@
 import 'package:acorn_client/acorn_client.dart';
 import 'package:flutter/material.dart';
-
 import 'serverpod_client.dart';
+import 'utils/countries_list.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -11,12 +11,22 @@ class GamePage extends StatefulWidget {
 }
 
 class GamePageState extends State<GamePage> {
+  TextEditingController searchController = TextEditingController();
+
+  List<String> values = [];
+  void getCountries() {
+    for (var country in countries) {
+      values.add(country['name']);
+    }
+  }
+
   final List<int> _items = List<int>.generate(5, (int index) => index);
-  final List<String> ansewrs = [];
-  List<String> options = [];
+  List ansewrs = [];
+  List options = [];
   int correctAnswer = 0;
   int incorrectAnswer = 0;
   bool answered = false;
+  bool selectCountry = false;
 
   final List<Color> backgroundColors =
       List.filled(5, Colors.grey.withOpacity(0.15));
@@ -27,15 +37,21 @@ class GamePageState extends State<GamePage> {
   List<Principal> listPrincipal = [];
   List<int> principalIds = [];
 
-  Future<void> fetchPrincipalByLocation() async {
+  Future<void> fetchPrincipalByLocation(String keywords) async {
     try {
-      List<String> location = 'Japan'.split(',').map((e) => e.trim()).toList();
+      List<String> location = keywords.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       principalIds = listPrincipal.map((item) => item.id as int).toList();
-      for (int index = 0; index < 5; index += 1) {
-        ansewrs.add(listPrincipal[index].affair);
+      for (var item in listPrincipal) {
+        if (item.annee.contains('CE')) {
+          options.add(
+              [item.affair, int.parse(item.annee.replaceFirst('CE ', ''))]);
+        }
       }
-      options = List<String>.from(ansewrs)..shuffle();
+      options = List.from(options)..shuffle();
+      options = options.sublist(0, 5);
+      ansewrs = List.from(options);
+      ansewrs.sort((a, b) => a[1].compareTo(b[1]));
       setState(() {});
     } on Exception catch (e) {
       debugPrint('$e');
@@ -66,15 +82,14 @@ class GamePageState extends State<GamePage> {
     correctAnswer = 0;
     incorrectAnswer = 0;
     answered = false;
-    options = List<String>.from(ansewrs)..shuffle();
+    options.shuffle();
     setState(() {});
   }
 
   @override
   initState() {
     super.initState();
-    fetchPrincipalByLocation();
-    print(ansewrs);
+    getCountries();
   }
 
   @override
@@ -83,77 +98,119 @@ class GamePageState extends State<GamePage> {
       appBar: AppBar(
         title: const Text('Game'),
       ),
-      body: options.isNotEmpty
+      body: !selectCountry
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                !answered
-                    ? const Text(
-                        'Arrange items in chronological order\n'
-                        'カードを正しい順序に並べ替えてください',
-                        style: TextStyle(fontSize: 18),
-                      )
-                    : Text(
-                        'Correct: $correctAnswer / Incorrect: $incorrectAnswer',
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                const SizedBox(height: 40),
-                Material(
-                  child: ReorderableListView(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    children: <Widget>[
-                      for (int index = 0; index < _items.length; index += 1)
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 2),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black, // 枠線の色
-                              width: 1.0, // 枠線の幅
-                            ),
-                          ),
-                          key: Key('$index'),
-                          child: ListTile(
-                            tileColor: backgroundColors[index],
-                            title: Text(
-                              options[_items[index]],
-                              style: TextStyle(color: stringColors[index]),
-                            ),
-                          ),
-                        ),
-                    ],
-                    onReorder: (int oldIndex, int newIndex) {
-                      setState(() {
-                        if (oldIndex < newIndex) {
-                          newIndex -= 1;
+                const Text(
+                  'Select a country to start the game',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 80.0),
+                  child: Autocomplete<String>(
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      return values.where((String value) {
+                        if (textEditingValue.text.isNotEmpty) {
+                          return value.contains(textEditingValue.text[0]
+                                  .toUpperCase() +
+                              textEditingValue.text.substring(1).toLowerCase());
+                        } else {
+                          return value.contains(textEditingValue.text);
                         }
-                        final int item = _items.removeAt(oldIndex);
-                        _items.insert(newIndex, item);
                       });
+                    },
+                    onSelected: (String selection) {
+                      searchController.text = selection;
                     },
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                !answered
-                    ? ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey[600],
-                            foregroundColor: Colors.white,
-                            elevation: 2),
-                        onPressed: _answer,
-                        child: const Text('Answer'))
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.grey[800],
-                            elevation: 2),
-                        onPressed: _retry,
-                        child: const Text('Retry')),
+                ElevatedButton(
+                  onPressed: () {
+                    fetchPrincipalByLocation(searchController.text);
+                    selectCountry = true;
+                  },
+                  child: const Text('Start Game'),
+                )
               ],
             )
-          : const Center(child: CircularProgressIndicator()),
+          : options.isNotEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    !answered
+                        ? const Text(
+                            'Arrange items in chronological order\n'
+                            'カードを正しい順序に並べ替えてください',
+                            style: TextStyle(fontSize: 18),
+                          )
+                        : Text(
+                            'Correct: $correctAnswer / Incorrect: $incorrectAnswer',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                    const SizedBox(height: 40),
+                    Material(
+                      child: ReorderableListView(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        children: <Widget>[
+                          for (int index = 0; index < _items.length; index += 1)
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 2),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black, // 枠線の色
+                                  width: 1.0, // 枠線の幅
+                                ),
+                              ),
+                              key: Key('$index'),
+                              child: ListTile(
+                                tileColor: backgroundColors[index],
+                                title: Text(
+                                  options[_items[index]].toString(),
+                                  style: TextStyle(color: stringColors[index]),
+                                ),
+                              ),
+                            ),
+                        ],
+                        onReorder: (int oldIndex, int newIndex) {
+                          setState(() {
+                            if (oldIndex < newIndex) {
+                              newIndex -= 1;
+                            }
+                            final int item = _items.removeAt(oldIndex);
+                            _items.insert(newIndex, item);
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    !answered
+                        ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey[600],
+                                foregroundColor: Colors.white,
+                                elevation: 2),
+                            onPressed: _answer,
+                            child: const Text('Answer'))
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.grey[800],
+                                elevation: 2),
+                            onPressed: _retry,
+                            child: const Text('Retry')),
+                  ],
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
     );
   }
 }
