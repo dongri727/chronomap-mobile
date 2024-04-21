@@ -43,10 +43,8 @@ class GamePageState extends State<GamePage> {
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       principalIds = listPrincipal.map((item) => item.id as int).toList();
       for (var item in listPrincipal) {
-        if (item.annee.contains('CE')) {
           options.add(
-              [item.affair, int.parse(item.annee.replaceFirst('CE ', ''))]);
-        }
+              [item.affair, item.point]);
       }
       options = List.from(options)..shuffle();
       options = options.sublist(0, 5);
@@ -171,7 +169,7 @@ class GamePageState extends State<GamePage> {
                               child: ListTile(
                                 tileColor: backgroundColors[index],
                                 title: Text(
-                                  options[_items[index]].toString(),
+                                  options[_items[index]][0],
                                   style: TextStyle(color: stringColors[index]),
                                 ),
                               ),
