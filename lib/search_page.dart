@@ -1,4 +1,3 @@
-import 'package:chronomap_mobile/timeline/scalable.dart';
 import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
 import 'serverpod_client.dart';
@@ -31,7 +30,7 @@ class SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _onScalablePressed() async {
+/*  void _onScalablePressed() async {
     await fetchPrincipalByLocation(searchController.text);
     if (listPrincipal.isNotEmpty) {
       Navigator.push(
@@ -41,7 +40,7 @@ class SearchPageState extends State<SearchPage> {
         ),
       );
     }
-  }
+  }*/
 
   List<String> options = [];
   void getOptions() {
@@ -60,72 +59,46 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('国名で検索できます'),
-      ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            Container(
-              height: 70,
-              child: const DrawerHeader(
-                child: Text(
-                  'VIEW CHOICE',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: ListTile(
-                // leading: Icon(Icons.circle,),
-                title: Text('CLASSIC'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: ListTile(
-                  // leading: Icon(Icons.settings),
-                  title: Text('SCALABLE'),
-                  onTap: _onScalablePressed),
-            ),
-            // More ListTiles...
-          ],
-        ),
+        automaticallyImplyLeading: false,
+        title: const Text('CLASSIC'),
       ),
       body: Column(
         children: [
           Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 30.0,right: 20.0),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Autocomplete<String>(
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          return options.where((String option) {
-                            if (textEditingValue.text.isNotEmpty) {
-                              return option.contains(textEditingValue.text[0]
-                                      .toUpperCase() +
-                                  textEditingValue.text.substring(1).toLowerCase());
-                            } else {
-                              return option.contains(textEditingValue.text);
-                            }
-                          });
-                        },
-                        onSelected: (String selection) {
-                          searchController.text = selection;
-                        },
+                  const Text('国名を入力して🔍にタッチしてください\n'
+                      '全件取得の場合は空欄のままタッチしてください'),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Autocomplete<String>(
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              return options.where((String option) {
+                                if (textEditingValue.text.isNotEmpty) {
+                                  return option.contains(textEditingValue.text[0]
+                                          .toUpperCase() +
+                                      textEditingValue.text.substring(1).toLowerCase());
+                                } else {
+                                  return option.contains(textEditingValue.text);
+                                }
+                              });
+                            },
+                            onSelected: (String selection) {
+                              searchController.text = selection;
+                            },
+                          ),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          fetchPrincipalByLocation(searchController.text);
+                        },
+                        icon: const Icon(Icons.search),
+                      )
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      fetchPrincipalByLocation(searchController.text);
-                    },
-                    icon: const Icon(Icons.search),
-                  )
                 ],
               ),
             ),

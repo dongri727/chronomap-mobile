@@ -1,7 +1,7 @@
 import 'package:acorn_client/acorn_client.dart';
+import 'package:chronomap_mobile/scalable/bloc_provider.dart';
+import 'package:chronomap_mobile/scalable/timeline/timeline.dart';
 import 'package:chronomap_mobile/tab.dart';
-import 'package:chronomap_mobile/timeline/bloc_provider.dart';
-import 'package:chronomap_mobile/timeline/timeline.dart';
 import 'package:flutter/material.dart';
 
 import 'serverpod_client.dart';

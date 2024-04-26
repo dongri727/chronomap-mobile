@@ -1,4 +1,5 @@
 import 'package:chronomap_mobile/register/register_page.dart';
+import 'package:chronomap_mobile/scalable/menu/scalable.dart';
 import 'package:flutter/material.dart';
 import 'game_page.dart';
 import 'index_page.dart';
@@ -16,6 +17,7 @@ class _TabWidgetState extends State<TabWidget> {
     IndexPage(),
     RegisterPage(),
     SearchPage(),
+    Scalable(),
     GamePage(),
   ];
 
@@ -38,12 +40,13 @@ class _TabWidgetState extends State<TabWidget> {
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Top'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add), label: '登録'),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: '検索'),
+                icon: Icon(Icons.add), label: 'REGISTER'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'CLASSIC'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'SCALABLE'),
 
-            BottomNavigationBarItem(icon: Icon(Icons.games), label: 'ゲーム'),
+            BottomNavigationBarItem(icon: Icon(Icons.games), label: 'GAME'),
           ],
           type: BottomNavigationBarType.fixed,
         ));

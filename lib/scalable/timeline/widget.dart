@@ -1,7 +1,8 @@
+import 'package:chronomap_mobile/scalable/menu/scalable.dart';
 import 'package:chronomap_mobile/search_page.dart';
-import 'package:chronomap_mobile/timeline/pont_data.dart';
 import 'package:flutter/material.dart';
 
+import '../menu/menu_data.dart';
 import 'entry.dart';
 import 'timeline.dart';
 import 'render_widget.dart';
@@ -204,8 +205,8 @@ class TimelineWidgetState extends State<TimelineWidget> {
                               icon: const Icon(Icons.arrow_back),
                               onPressed: () {
                                 widget.timeline.isActive = false;
-                                //Navigator.of(context).pop();
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+                                Navigator.of(context).pop();
+                                //Navigator.push(context, MaterialPageRoute(builder: (context) => const Scalable()));
                                 //return true;
                               },
                             ),
