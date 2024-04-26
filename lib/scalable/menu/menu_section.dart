@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../utils/shadowed_container.dart';
-import 'pont_data.dart';
+import '../../utils/shadowed_container.dart';
+import 'menu_data.dart';
 
 typedef NavigateTo = Function(MenuItemData item, BuildContext context);
 
@@ -28,7 +28,7 @@ class MenuSection extends StatelessWidget {
             title,
             style: const TextStyle(
               fontSize: 24.0,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ),
@@ -37,7 +37,7 @@ class MenuSection extends StatelessWidget {
         child: Column(
           children: menuOptions.map<Widget>((item) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+              padding: const EdgeInsets.fromLTRB(50, 8, 50, 8),
               child: ShadowedContainer(
                 child: ListTile(
                   tileColor: backgroundColor,

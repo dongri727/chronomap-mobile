@@ -1,4 +1,5 @@
 import 'package:acorn_client/acorn_client.dart';
+import 'package:chronomap_mobile/register/register_page.dart';
 import 'package:flutter/material.dart';
 import 'serverpod_client.dart';
 import 'utils/countries_list.dart';
@@ -42,19 +43,53 @@ class GamePageState extends State<GamePage> {
       List<String> location = keywords.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       principalIds = listPrincipal.map((item) => item.id as int).toList();
-      for (var item in listPrincipal) {
-          options.add(
-              [item.affair, item.point]);
+
+      if (listPrincipal.length < 5) {
+        // データが5件に満たない場合、アラートを表示
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Not enough data'),
+              content: const Text('データが足りません'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('データを追加する'),
+                  onPressed: () {
+                    Navigator.push<String>(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RegisterPage()));
+                  },
+                ),
+                TextButton(
+                  child: const Text('別の国で遊ぶ'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // ダイアログを閉じる
+                    setState(() {
+                      selectCountry = false; // 国を選ぶステップに戻る
+                    });
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // データが5件以上存在する場合、ゲームのオプションを設定
+        for (var item in listPrincipal) {
+          options.add([item.affair, item.point]);
+        }
+        options = List.from(options)..shuffle();
+        options = options.sublist(0, 5);
+        ansewrs = List.from(options);
+        ansewrs.sort((a, b) => a[1].compareTo(b[1]));
+        setState(() {});
       }
-      options = List.from(options)..shuffle();
-      options = options.sublist(0, 5);
-      ansewrs = List.from(options);
-      ansewrs.sort((a, b) => a[1].compareTo(b[1]));
-      setState(() {});
     } on Exception catch (e) {
       debugPrint('$e');
     }
   }
+
 
   void _answer() {
     correctAnswer = 0;

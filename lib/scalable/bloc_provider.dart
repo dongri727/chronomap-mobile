@@ -1,5 +1,5 @@
 import "package:flutter/widgets.dart";
-import 'timeline.dart';
+import 'timeline/timeline.dart';
 
 /// This [InheritedWidget] wraps the whole app, and provides access
 /// to the [Timeline] object.

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'entry.dart';
+import '../timeline/entry.dart';
+
+//このクラスにはデータしかない。表示機能はSectionにある。
 
 class MenuSectionData {
   late String label;
@@ -9,6 +11,7 @@ class MenuSectionData {
 }
 
 /// Data container for all the sub-elements of the [MenuSection].
+/// 表示域を選択するTileに表示するもの
 class MenuItemData {
   String label = "";
   double start = 0.0;
@@ -49,14 +52,14 @@ class MenuData {
 
     // Items
     List<MenuItemData> items = [
-      MenuItemData()..label = "2.SHOW ALL"..start = -5100000000000..end = 800000,
+      MenuItemData()..label = "Whole Period"..start = -5100000000000..end = 800000,
 /*      MenuItemData()..label = "Billion Years Ago"..start = -5100000000000..end = -366000000000,
       MenuItemData()..label = "Million Years Ago"..start = -366000000000..end = -366000000,
-      MenuItemData()..label = "Thousand Years Ago"..start = -366000000..end = -366000,
+      MenuItemData()..label = "Thousand Years Ago"..start = -366000000..end = -366000,*/
       MenuItemData()..label = "BCE"..start = -366000..end = 0,
       MenuItemData()..label = "CE"..start = 0..end = 700000,
       MenuItemData()..label = "20th Century"..start = 690000..end = 750000,
-      MenuItemData()..label = "21th Century"..start = 730000..end = 800000,*/
+      MenuItemData()..label = "21th Century"..start = 730000..end = 800000,
     ];
 
     menuSection.items = items;
