@@ -11,8 +11,11 @@ class GamePage extends StatefulWidget {
   State<GamePage> createState() => GamePageState();
 }
 
-class GamePageState extends State<GamePage> {
+class GamePageState extends State<GamePage> with TickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
+
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   List<String> values = [];
   void getCountries() {
@@ -22,7 +25,7 @@ class GamePageState extends State<GamePage> {
   }
 
   final List<int> _items = List<int>.generate(5, (int index) => index);
-  List ansewrs = [];
+  List answers = [];
   List options = [];
   int correctAnswer = 0;
   int incorrectAnswer = 0;
@@ -43,6 +46,8 @@ class GamePageState extends State<GamePage> {
       List<String> location = keywords.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
       principalIds = listPrincipal.map((item) => item.id as int).toList();
+
+      if (!mounted) return;
 
       if (listPrincipal.length < 5) {
         // データが5件に満たない場合、アラートを表示
@@ -81,8 +86,8 @@ class GamePageState extends State<GamePage> {
         }
         options = List.from(options)..shuffle();
         options = options.sublist(0, 5);
-        ansewrs = List.from(options);
-        ansewrs.sort((a, b) => a[1].compareTo(b[1]));
+        answers = List.from(options);
+        answers.sort((a, b) => a[1].compareTo(b[1]));
         setState(() {});
       }
     } on Exception catch (e) {
@@ -90,19 +95,21 @@ class GamePageState extends State<GamePage> {
     }
   }
 
-
   void _answer() {
     correctAnswer = 0;
     incorrectAnswer = 0;
     answered = true;
     for (int index = 0; index < _items.length; index += 1) {
-      if (ansewrs[index] == options[_items[index]]) {
+      if (answers[index] == options[_items[index]]) {
         correctAnswer += 1;
         backgroundColors[index] = correctBackgroundColor;
       } else {
         incorrectAnswer += 1;
         stringColors[index] = incorrectStingColor;
       }
+    }
+    if (correctAnswer == _items.length) {
+      _animationController.forward(from: 0.0); // アニメーションを開始
     }
     setState(() {});
   }
@@ -123,6 +130,24 @@ class GamePageState extends State<GamePage> {
   initState() {
     super.initState();
     getCountries();
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 2),
+        vsync: this);
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn
+    );
+    _animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animationController.reverse();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -136,7 +161,9 @@ class GamePageState extends State<GamePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Select a country to start the game',
+                  '国を選んでください。\n'
+                      '未選択でゲームを開始すると全件が対象になります。',
+
                   style: TextStyle(fontSize: 16),
                 ),
                 Padding(
@@ -181,10 +208,23 @@ class GamePageState extends State<GamePage> {
                             'カードを正しい順序に並べ替えてください',
                             style: TextStyle(fontSize: 18),
                           )
-                        : Text(
-                            'Correct: $correctAnswer / Incorrect: $incorrectAnswer',
-                            style: const TextStyle(fontSize: 18),
-                          ),
+                        : Column(
+                          children: [
+                            Text(
+                                'Correct: $correctAnswer / Incorrect: $incorrectAnswer',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            FadeTransition(
+                              opacity: _animation,
+                              child: const Center(
+                                child: Text(
+                                  'Perfect!',
+                                  style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.green),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                     const SizedBox(height: 40),
                     Material(
                       child: ReorderableListView(
@@ -195,8 +235,9 @@ class GamePageState extends State<GamePage> {
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 2),
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: Colors.black, // 枠線の色
+                                  color: Colors.blueGrey, // 枠線の色
                                   width: 1.0, // 枠線の幅
                                 ),
                               ),
