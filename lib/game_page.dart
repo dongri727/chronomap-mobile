@@ -95,7 +95,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
     }
   }
 
-  void _answer() {
+  Future<void> _answer() async {
     correctAnswer = 0;
     incorrectAnswer = 0;
     answered = true;
@@ -108,9 +108,57 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
         stringColors[index] = incorrectStingColor;
       }
     }
+
+    setState(() {});
+
     if (correctAnswer == _items.length) {
-      _animationController.forward(from: 0.0); // アニメーションを開始
+      _animationController.forward(from: 0.0).then((_) {
+        _resetGame();
+      });
+    } else {
+      _showRetryOrNewGameDialog();
     }
+  }
+
+  void _showRetryOrNewGameDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("残念！"),
+            content: const Text("再挑戦しますか？"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _retry(); // 同じカードで再挑戦
+                },
+                child: const Text('同じカードでもう一度'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _resetGame(); // 新しいゲームを開始
+                },
+                child: const Text('新しいゲーム'),
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+  void _resetGame() {
+    // ゲーム状態のリセット
+    for (int index = 0; index < 5; index += 1) {
+      backgroundColors[index] = Colors.grey.withOpacity(0.15);
+      stringColors[index] = Colors.black;
+    }
+    correctAnswer = 0;
+    incorrectAnswer = 0;
+    answered = false;
+    selectCountry = false;
+    options.clear();
     setState(() {});
   }
 
@@ -131,7 +179,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
     super.initState();
     getCountries();
     _animationController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
         vsync: this);
     _animation = CurvedAnimation(
       parent: _animationController,
@@ -162,7 +210,8 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
               children: [
                 const Text(
                   '国を選んでください。\n'
-                      '未選択でゲームを開始すると全件が対象になります。',
+                      '未選択でゲームを開始すると\n'
+                      '全件が対象になります。',
 
                   style: TextStyle(fontSize: 16),
                 ),
@@ -204,14 +253,13 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                   children: [
                     !answered
                         ? const Text(
-                            'Arrange items in chronological order\n'
                             'カードを正しい順序に並べ替えてください',
                             style: TextStyle(fontSize: 18),
                           )
                         : Column(
                           children: [
                             Text(
-                                'Correct: $correctAnswer / Incorrect: $incorrectAnswer',
+                                '正解: $correctAnswer / 間違い: $incorrectAnswer',
                                 style: const TextStyle(fontSize: 18),
                               ),
                             FadeTransition(
@@ -265,21 +313,13 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                     const SizedBox(
                       height: 40,
                     ),
-                    !answered
-                        ? ElevatedButton(
+                       ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.grey[600],
                                 foregroundColor: Colors.white,
                                 elevation: 2),
                             onPressed: _answer,
                             child: const Text('Answer'))
-                        : ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.grey[800],
-                                elevation: 2),
-                            onPressed: _retry,
-                            child: const Text('Retry')),
                   ],
                 )
               : const Center(
