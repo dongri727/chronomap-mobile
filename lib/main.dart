@@ -1,8 +1,8 @@
-import 'package:acorn_client/acorn_client.dart';
 import 'package:chronomap_mobile/scalable/bloc_provider.dart';
 import 'package:chronomap_mobile/scalable/timeline/timeline.dart';
 import 'package:chronomap_mobile/tab.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'serverpod_client.dart';
 
@@ -26,7 +26,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: const Color(0xFF2f4f4f),
+          //appBarTheme: AppBarTheme(color: Colors.indigo[300]),
           brightness: Brightness.light,
+          textTheme: GoogleFonts.sawarabiMinchoTextTheme(),
         ),
         home: const TabWidget(),
       ),

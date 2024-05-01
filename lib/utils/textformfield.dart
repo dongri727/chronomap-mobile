@@ -1,3 +1,4 @@
+import 'package:chronomap_mobile/utils/shadowed_container.dart';
 import 'package:flutter/material.dart';
 
 class TffFormat extends StatelessWidget {
@@ -12,29 +13,31 @@ class TffFormat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-          fontSize: 20,
-          color: Colors.green),
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(5.0),
-        hintText: hintText,
-        filled: true,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(
-            width: 2.0,
+    return ShadowedContainer(
+      child: TextFormField(
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontSize: 16,
+            color: Colors.green),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(5.0),
+          hintText: hintText,
+          filled: true,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              width: 0.5,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(
+              width: 0.5,
+            ),
           ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(
-            width: 1.0,
-          ),
-        ),
+        onChanged: onChanged,
       ),
-      onChanged: onChanged,
     );
   }
 }

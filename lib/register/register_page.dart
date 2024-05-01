@@ -46,7 +46,10 @@ class RegisterPage extends StatelessWidget {
                 label: const Text('登録')),
             body: Column(
               children: [
-                const Text('いつ'),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text('いつ'),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomDropdownButton(
@@ -58,7 +61,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                   child: TffFormat(
                     hintText: 'year',
                     onChanged: (value) {
@@ -67,7 +70,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                   child: TffFormat(
                     hintText: "month 1-12 or 0",
                     onChanged: (value) {
@@ -76,7 +79,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                   child: TffFormat(
                     hintText: "date 1-31 or 0",
                     onChanged: (value) {
@@ -85,9 +88,12 @@ class RegisterPage extends StatelessWidget {
                     },
                   ),
                 ),
-                const Text('どの国で'),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text('現在のどの国に相当する場所で'),
+                ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                   child: Autocomplete<String>(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
@@ -104,9 +110,12 @@ class RegisterPage extends StatelessWidget {
                     },
                   ),
                 ),
-                const Text('なにがあった？'),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text('なにがあった？'),
+                ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                   child: TffFormat(
                     hintText: "",
                     onChanged: (text) {
