@@ -44,87 +44,89 @@ class RegisterPage extends StatelessWidget {
                   model.showCustomDialog(context, title, content);
                 },
                 label: const Text('登録')),
-            body: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text('いつ'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomDropdownButton(
-                    selectedValue: model.selectedCalendar,
-                    options: model.periods,
-                    onChanged: (value) {
-                      model.setCalendar(value);
-                    },
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text('いつ'),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                  child: TffFormat(
-                    hintText: 'year',
-                    onChanged: (value) {
-                      model.setNewYearD(value);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomDropdownButton(
+                      selectedValue: model.selectedCalendar,
+                      options: model.periods,
+                      onChanged: (value) {
+                        model.setCalendar(value);
+                      },
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                  child: TffFormat(
-                    hintText: "month 1-12 or 0",
-                    onChanged: (value) {
-                      model.setNewMonth(value);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                    child: TffFormat(
+                      hintText: 'year',
+                      onChanged: (value) {
+                        model.setNewYearD(value);
+                      },
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                  child: TffFormat(
-                    hintText: "date 1-31 or 0",
-                    onChanged: (value) {
-                      model.setNewDay(value);
-                      print(value);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                    child: TffFormat(
+                      hintText: "month 1-12 or 0",
+                      onChanged: (value) {
+                        model.setNewMonth(value);
+                      },
+                    ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text('現在のどの国に相当する場所で'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                  child: Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<String>.empty();
-                      } else {
-                        return model.options.where((String option) {
-                          return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                        });
-                      }
-                    },
-                    onSelected: (String selection) {
-                      model.setSelectedCountry(selection);
-                      print(selection);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                    child: TffFormat(
+                      hintText: "date 1-31 or 0",
+                      onChanged: (value) {
+                        model.setNewDay(value);
+                        print(value);
+                      },
+                    ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text('なにがあった？'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                  child: TffFormat(
-                    hintText: "",
-                    onChanged: (text) {
-                      model.setNewName(text);
-                      print(text);
-                    },
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text('現在のどの国に相当する場所で'),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                    child: Autocomplete<String>(
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        if (textEditingValue.text.isEmpty) {
+                          return const Iterable<String>.empty();
+                        } else {
+                          return model.options.where((String option) {
+                            return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                          });
+                        }
+                      },
+                      onSelected: (String selection) {
+                        model.setSelectedCountry(selection);
+                        print(selection);
+                      },
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text('なにがあった？'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                    child: TffFormat(
+                      hintText: "",
+                      onChanged: (text) {
+                        model.setNewName(text);
+                        print(text);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         })
