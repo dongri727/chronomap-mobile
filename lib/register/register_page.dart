@@ -17,6 +17,7 @@ class RegisterPage extends StatelessWidget {
               title: const Text('入力'),
             ),
             floatingActionButton: FloatingActionButton.extended(
+              backgroundColor: Colors.green[200],
                 onPressed: () async {
                   model.convertPoint();
                   int result = await model.save();

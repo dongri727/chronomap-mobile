@@ -1,5 +1,3 @@
-import 'package:chronomap_mobile/scalable/menu/scalable.dart';
-import 'package:chronomap_mobile/search_page.dart';
 import 'package:flutter/material.dart';
 
 import '../menu/menu_data.dart';
