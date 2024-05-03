@@ -3,12 +3,17 @@ import 'package:chronomap_mobile/scalable/timeline/timeline.dart';
 import 'package:chronomap_mobile/tab.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'serverpod_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeServerpodClient();
+
+  // splash画面を表示時間を調整するために、下の2行を追加します。
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(const MyApp());
 }
