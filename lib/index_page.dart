@@ -42,6 +42,14 @@ class _IndexPageState extends State<IndexPage> {
                   color: Colors.green),
                 ),
             Visibility(
+              visible: !_isVisible,
+                child: const CustomTextContainer(textContent:
+                  'BigBangから終わりなき「今」まで\n'
+                      '全ての歴史的事象を網羅する\n'
+                      '壮大なデータベース構築に\n'
+                      'あなたも参加してください。',
+                )),
+            Visibility(
               visible: _isVisible,
               child: Column(
                 children: [
@@ -60,7 +68,7 @@ class _IndexPageState extends State<IndexPage> {
                   '英語表記で運用されています。\n'
                   '国名は予測変換を用いて \n'
                   '必ず英語で登録してください。\n'
-                  'できごとを日本語で登録された場合\n、'
+                  'できごとを日本語で登録された場合\n'
                   '順次、英語に修正されます。'
               ),
                 const CustomTextContainer(textContent:

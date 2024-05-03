@@ -124,23 +124,29 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("残念！"),
-            content: const Text("再挑戦しますか？"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _retry(); // 同じカードで再挑戦
-                },
-                child: const Text('同じカードでもう一度'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _resetGame(); // 新しいゲームを開始
-                },
-                child: const Text('新しいゲーム'),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AlertDialog(
+                backgroundColor: Colors.white.withOpacity(0.5),
+                title: const Text("残念！"),
+                content: const Text("再挑戦しますか？"),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _retry(); // 同じカードで再挑戦
+                    },
+                    child: const Text('同じカードでもう一度'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _resetGame(); // 新しいゲームを開始
+                    },
+                    child: const Text('新しいゲーム'),
+                  ),
+                ],
               ),
             ],
           );
