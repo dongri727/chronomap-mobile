@@ -13,11 +13,11 @@ class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
 
   @override
-  _IndexPageState createState() => _IndexPageState();
+  IndexPageState createState() => IndexPageState();
 
 }
 
-class _IndexPageState extends State<IndexPage> {
+class IndexPageState extends State<IndexPage> {
   bool _isVisible = false; // テキストの表示状態を管理するフラグ
 
   void _toggleVisibility() {
@@ -35,20 +35,29 @@ class _IndexPageState extends State<IndexPage> {
       body: Center(
         child: Column(
           children: [
-            IconButton(
-                onPressed: _toggleVisibility,
-                icon: const Icon(
-                    Icons.question_mark_sharp,
-                  color: Colors.green),
-                ),
             Visibility(
               visible: !_isVisible,
-                child: const CustomTextContainer(textContent:
-                  'BigBangから終わりなき「今」まで\n'
-                      '全ての歴史的事象を網羅する\n'
-                      '壮大なデータベース構築に\n'
-                      'あなたも参加してください。',
-                )),
+                child: Column(
+                  children: [
+                    IconButton(
+                      onPressed: _toggleVisibility,
+                      icon: const Icon(
+                          Icons.question_mark_sharp,
+                          color: Colors.green),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(60, 20, 60, 60),
+                      child: ShadowedContainer(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                                child: Image.asset('assets/images/cover.png')),
+                          )),
+                    ),
+                  ],
+                )
+                ),
             Visibility(
               visible: _isVisible,
               child: Column(
