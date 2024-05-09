@@ -298,7 +298,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                               key: Key('$index'),
                               child: ListTile(
                                 tileColor: backgroundColors[index],
-                                title: Text(
+                                title: SelectableText(
                                   options[_items[index]][0],
                                   style: TextStyle(color: stringColors[index]),
                                 ),

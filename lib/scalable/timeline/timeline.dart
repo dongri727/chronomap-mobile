@@ -228,7 +228,8 @@ class Timeline {
 
         /// The label is a brief description for the current entry.
         /// labelの表示
-        timelineEntry.name = "${principal.annee}-${principal.month}-${principal.day} ${principal.affair}  ${principal.location} ${principal.precise}";
+        timelineEntry.name = "${principal.annee} ${principal.affair} ${principal.precise}";
+        //timelineEntry.name = "${principal.annee}-${principal.month}-${principal.day} ${principal.affair} ${principal.location} ${principal.precise}";
         //}
 
         /// Add this entry to the list.
@@ -584,7 +585,7 @@ class Timeline {
 
   ///吹き出しサイズ
   double bubbleHeight(TimelineEntry entry) {
-    return bubblePadding * 2.0 + bubbleTextHeight;
+    return bubblePadding * 4.0 + bubbleTextHeight;
   }
 
   /// Advance entry [assets] with the current [elapsed] time.

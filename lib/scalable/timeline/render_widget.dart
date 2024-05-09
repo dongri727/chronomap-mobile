@@ -237,15 +237,15 @@ class TimelineRenderObject extends RenderBox {
               .withOpacity(legOpacity);
       }
 
-      const double maxLabelWidth = 1500.0;
-      const double bubblePadding = 20.0;
+      const double maxLabelWidth = 300.0;
+      const double bubblePadding = 8.0;
 
       /// Let the Timeline calculate the height for the current item's bubble.
       double bubbleHeight = timeline.bubbleHeight(item);
 
       /// Use [ui.ParagraphBuilder] to construct the label for canvas.
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontSize: 15.0))
+          textAlign: TextAlign.start, fontSize: 12.0))
         ..pushStyle(
             ui.TextStyle(color: const Color.fromRGBO(255, 255, 255, 1.0)));
 

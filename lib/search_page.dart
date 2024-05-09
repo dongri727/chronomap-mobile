@@ -123,7 +123,7 @@ class SearchPageState extends State<SearchPage> {
                         const SizedBox(
                           height: 4,
                         ),
-                        Text(listPrincipal[index].affair,
+                        SelectableText(listPrincipal[index].affair,
                             style: const TextStyle(fontSize: 16)),
                         const SizedBox(
                           height: 2,

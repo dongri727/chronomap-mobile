@@ -12,7 +12,7 @@ class CustomTextContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.fromLTRB(30, 12, 30, 12),
       child: ShadowedContainer(
         child: Container(
           decoration: BoxDecoration(
@@ -23,7 +23,7 @@ class CustomTextContainer extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: Text(
               textContent,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
             ),
           ),
         ),
