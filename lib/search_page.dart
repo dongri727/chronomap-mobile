@@ -30,18 +30,6 @@ class SearchPageState extends State<SearchPage> {
     }
   }
 
-/*  void _onScalablePressed() async {
-    await fetchPrincipalByLocation(searchController.text);
-    if (listPrincipal.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Scalable(principal: listPrincipal),
-        ),
-      );
-    }
-  }*/
-
   List<String> options = [];
   void getOptions() {
     for (var country in countries) {

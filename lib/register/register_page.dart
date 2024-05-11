@@ -14,7 +14,7 @@ class RegisterPage extends StatelessWidget {
         child: Consumer<RegisterModel>(builder: (_, model, child) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('入力'),
+              title: const Text('Register'),
             ),
             floatingActionButton: FloatingActionButton.extended(
               backgroundColor: Colors.green[200],
@@ -44,13 +44,13 @@ class RegisterPage extends StatelessWidget {
                   }
                   model.showCustomDialog(context, title, content);
                 },
-                label: const Text('登録')),
+                label: const Text('add')),
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: Text('いつ'),
+                    child: Text('When'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

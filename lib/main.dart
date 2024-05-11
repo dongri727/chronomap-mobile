@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'index_page.dart';
 import 'serverpod_client.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // 多言語化のためにインポート
+import 'package:shared_preferences/shared_preferences.dart'; // 言語設定の保存・読み込みのためにインポート
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +21,42 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>()!;
+    state.setLocale(newLocale);
+  }
+
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedLanguage();
+  }
+
+  void setLocale(Locale newLocale) {
+    setState(() {
+      _locale = newLocale;
+    });
+  }
+
+  void _loadSavedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedLanguageCode = prefs.getString('languageCode');
+    if (savedLanguageCode != null) {
+      setState(() {
+        _locale = Locale(savedLanguageCode);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +68,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: const Color(0xFF2f4f4f),
-          //appBarTheme: AppBarTheme(color: Colors.indigo[300]),
           brightness: Brightness.light,
           textTheme: GoogleFonts.sawarabiMinchoTextTheme(),
         ),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: const [Locale('en'), Locale('ja'), Locale('fr')],
+        locale: _locale,
         home: const TabWidget(),
       ),
     );

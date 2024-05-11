@@ -2,7 +2,7 @@ import 'package:chronomap_mobile/utils/describe_card.dart';
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatelessWidget {
-  InfoPage({super.key});
+  const InfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
