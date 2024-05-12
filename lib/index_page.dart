@@ -3,10 +3,7 @@ import 'package:chronomap_mobile/utils/language_button.dart';
 import 'package:chronomap_mobile/utils/shadowed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'info_page.dart';
-import 'main.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -62,7 +59,7 @@ class IndexPageState extends State<IndexPage> {
                               padding: const EdgeInsets.all(8.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset('assets/images/cover.png')),
+                                  child: Image.asset(AppLocalizations.of(context)!.cover)),
                             )),
                       ),
                     ],

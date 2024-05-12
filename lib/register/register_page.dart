@@ -3,6 +3,7 @@ import 'package:chronomap_mobile/utils/textformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/dropdown_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -14,7 +15,7 @@ class RegisterPage extends StatelessWidget {
         child: Consumer<RegisterModel>(builder: (_, model, child) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Register'),
+              title: Text(AppLocalizations.of(context)!.registerA),
             ),
             floatingActionButton: FloatingActionButton.extended(
               backgroundColor: Colors.green[200],
@@ -42,15 +43,18 @@ class RegisterPage extends StatelessWidget {
                       content = 'Please try again later';
                       break;
                   }
+
+                  if (!context.mounted) return;
+
                   model.showCustomDialog(context, title, content);
                 },
-                label: const Text('add')),
+                label: Text(AppLocalizations.of(context)!.registerE)),
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text('When'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(AppLocalizations.of(context)!.registerB),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -90,9 +94,9 @@ class RegisterPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text('現在のどの国に相当する場所で'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(AppLocalizations.of(context)!.registerC),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
@@ -112,9 +116,9 @@ class RegisterPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text('なにがあった？'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(AppLocalizations.of(context)!.registerD),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),

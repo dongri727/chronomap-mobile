@@ -6,6 +6,7 @@ import 'menu_data.dart';
 import "menu_section.dart";
 import "../timeline/widget.dart";
 import 'package:chronomap_mobile/utils/countries_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Scalable extends StatefulWidget {
   final List<Principal>? principal;
@@ -98,50 +99,50 @@ class ScalableState extends State<Scalable> {
           automaticallyImplyLeading: false,
           title: const Text("SCALABLE"),
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 30.0,right: 20.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('国名を入力して🔍にタッチしてください\n'
-                      '全件取得の場合は空欄のままタッチしてください\n'
-                      'タッチせずに進むとエラーになります'),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Autocomplete<String>(
-                          optionsBuilder: (TextEditingValue textEditingValue) {
-                            return options.where((String option) {
-                              if (textEditingValue.text.isNotEmpty) {
-                                return option.contains(textEditingValue.text[0]
-                                    .toUpperCase() +
-                                    textEditingValue.text.substring(1).toLowerCase());
-                              } else {
-                                return option.contains(textEditingValue.text);
-                              }
-                            });
-                          },
-                          onSelected: (String selection) {
-                            searchController.text = selection;
-                            print(selection);
-                          },
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30.0,right: 20.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(AppLocalizations.of(context)!.scalableA),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Autocomplete<String>(
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              return options.where((String option) {
+                                if (textEditingValue.text.isNotEmpty) {
+                                  return option.contains(textEditingValue.text[0]
+                                      .toUpperCase() +
+                                      textEditingValue.text.substring(1).toLowerCase());
+                                } else {
+                                  return option.contains(textEditingValue.text);
+                                }
+                              });
+                            },
+                            onSelected: (String selection) {
+                              searchController.text = selection;
+                              print(selection);
+                            },
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () async {
-                          await fetchPrincipalByLocation(searchController.text);
-                          timeline.gatherEntries(listPrincipal);
-                        },
-                        icon: const Icon(Icons.search),
-                      )
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 40.0),
-                    child: Text('🔍にタッチしたら、表示域を選択してください'),
-                  ),
-                ] + tail),
+                        IconButton(
+                          onPressed: () async {
+                            await fetchPrincipalByLocation(searchController.text);
+                            timeline.gatherEntries(listPrincipal);
+                          },
+                          icon: const Icon(Icons.search),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40.0),
+                      child: Text(AppLocalizations.of(context)!.scalableB),
+                    ),
+                  ] + tail),
+            ),
           ),
         )
     );

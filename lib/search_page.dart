@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
 import 'serverpod_client.dart';
 import 'utils/countries_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -57,8 +58,7 @@ class SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.only(left: 30.0,right: 20.0),
               child: Column(
                 children: [
-                  const Text('国名を入力して🔍にタッチしてください\n'
-                      '全件取得の場合は空欄のままタッチしてください'),
+                  Text(AppLocalizations.of(context)!.search),
                   Row(
                     children: [
                       Expanded(

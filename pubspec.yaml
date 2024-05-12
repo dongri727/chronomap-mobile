@@ -104,7 +104,9 @@ flutter:
     - assets/images/splash_768.png
     - assets/images/icon.png
     - assets/images/icon_adaptive.png
-    - assets/images/cover.png
+    - assets/images/cover_en.png
+    - assets/images/cover_fr.png
+    - assets/images/cover_ja.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

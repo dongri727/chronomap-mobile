@@ -3,6 +3,7 @@ import 'package:chronomap_mobile/register/register_page.dart';
 import 'package:flutter/material.dart';
 import 'serverpod_client.dart';
 import 'utils/countries_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -55,11 +56,11 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Not enough data'),
-              content: const Text('データが足りません'),
+              title: Text(AppLocalizations.of(context)!.gameAlertA),
+              content: Text(AppLocalizations.of(context)!.gameAlertB),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('データを追加する'),
+                  child: Text(AppLocalizations.of(context)!.gameAlertC),
                   onPressed: () {
                     Navigator.push<String>(
                     context,
@@ -67,7 +68,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                   },
                 ),
                 TextButton(
-                  child: const Text('別の国で遊ぶ'),
+                  child: Text(AppLocalizations.of(context)!.gameAlertD),
                   onPressed: () {
                     Navigator.of(context).pop(); // ダイアログを閉じる
                     setState(() {
@@ -129,22 +130,22 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
             children: [
               AlertDialog(
                 backgroundColor: Colors.white.withOpacity(0.5),
-                title: const Text("残念！"),
-                content: const Text("再挑戦しますか？"),
+                title: Text(AppLocalizations.of(context)!.gameDialogA),
+                content: Text(AppLocalizations.of(context)!.gameDialogB),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       _retry(); // 同じカードで再挑戦
                     },
-                    child: const Text('同じカードでもう一度'),
+                    child: Text(AppLocalizations.of(context)!.gameDialogC),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       _resetGame(); // 新しいゲームを開始
                     },
-                    child: const Text('新しいゲーム'),
+                    child: Text(AppLocalizations.of(context)!.gameDialogD),
                   ),
                 ],
               ),
@@ -214,12 +215,11 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  '国を選んでください。\n'
-                      '未選択でゲームを開始すると\n'
-                      '全件が対象になります。',
-
-                  style: TextStyle(fontSize: 16),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(AppLocalizations.of(context)!.gameA,
+                    style: const TextStyle(fontSize: 16),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -258,14 +258,13 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     !answered
-                        ? const Text(
-                            'カードを正しい順序に並べ替えてください',
-                            style: TextStyle(fontSize: 18),
+                        ? Text(AppLocalizations.of(context)!.gameB,
+                            style: const TextStyle(fontSize: 18),
                           )
                         : Column(
                           children: [
                             Text(
-                                '正解: $correctAnswer / 間違い: $incorrectAnswer',
+                                '👍: $correctAnswer / 👎: $incorrectAnswer',
                                 style: const TextStyle(fontSize: 18),
                               ),
                             FadeTransition(
@@ -298,7 +297,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                               key: Key('$index'),
                               child: ListTile(
                                 tileColor: backgroundColors[index],
-                                title: SelectableText(
+                                title: Text(
                                   options[_items[index]][0],
                                   style: TextStyle(color: stringColors[index]),
                                 ),

@@ -4,8 +4,6 @@ import 'package:chronomap_mobile/tab.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
-import 'index_page.dart';
 import 'serverpod_client.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // 多言語化のためにインポート
 import 'package:shared_preferences/shared_preferences.dart'; // 言語設定の保存・読み込みのためにインポート

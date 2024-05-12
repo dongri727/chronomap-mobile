@@ -11,7 +11,25 @@ class LanguageDropdownButton extends StatefulWidget {
 }
 
 class LanguageDropdownButtonState extends State<LanguageDropdownButton> {
-  String? currentLanguage = 'ja';  // 初期値として'ja' (日本の国旗) を設定
+  String? currentLanguage = 'ja';// 初期値として'ja' (日本の国旗) を設定
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLanguage();  // 起動時に言語設定を読み込む
+  }
+
+  void _loadLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? languageCode = prefs.getString('languageCode');
+
+    // SharedPreferencesから言語が読み込めたら、それを使ってUIを更新
+    if (languageCode != null) {
+      setState(() {
+        currentLanguage = languageCode;
+      });
+    }
+  }
 
   void _changeLanguage(String languageCode) async {
     Locale newLocale = Locale(languageCode);
