@@ -47,15 +47,10 @@ class MenuData {
     MenuSectionData menuSection = MenuSectionData();
 
     menuSection.label = " ";
-    //menuSection.backgroundColor = const Color(0xFF2f4f4f); // Adjusted the color format
-    //menuSection.textColor = const Color(0xFF9acd32); // Adjusted the color format
 
     // Items
     List<MenuItemData> items = [
       MenuItemData()..label = "Whole Period"..start = -5100000000000..end = 800000,
-/*      MenuItemData()..label = "Billion Years Ago"..start = -5100000000000..end = -366000000000,
-      MenuItemData()..label = "Million Years Ago"..start = -366000000000..end = -366000000,
-      MenuItemData()..label = "Thousand Years Ago"..start = -366000000..end = -366000,*/
       MenuItemData()..label = "BCE"..start = -366000..end = 0,
       MenuItemData()..label = "CE"..start = 0..end = 700000,
       MenuItemData()..label = "20th Century"..start = 690000..end = 750000,

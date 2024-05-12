@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_mobile/main.dart';
 import 'package:chronomap_mobile/register/register_page.dart';
 import 'package:flutter/material.dart';
 import '../serverpod_client.dart';
@@ -29,8 +27,6 @@ class RegisterModel extends ChangeNotifier {
   var calendarNo = 0; //時代コード
 
   List<String> periods = epoch; //時代選択肢
-
-  //String location = ""; //位置情報（現在は国だけ）
 
   List<String> options = [];
 
@@ -62,7 +58,6 @@ class RegisterModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
 
   setNewName(text) {
     newName = text;

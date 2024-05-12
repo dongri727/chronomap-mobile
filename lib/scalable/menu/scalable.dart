@@ -75,7 +75,7 @@ class ScalableState extends State<Scalable> {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsets devicePadding = MediaQuery.of(context).padding;
+    //EdgeInsets devicePadding = MediaQuery.of(context).padding;
     final timeline = BlocProvider.getTimeline(context);
 
     List<Widget> tail = [];

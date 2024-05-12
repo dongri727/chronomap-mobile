@@ -116,7 +116,7 @@ class TimelineRenderObject extends RenderBox {
     if (_processedFocusItem == _focusItem) {
       return;
     }
-    if (_focusItem == null || timeline == null || topOverlap == 0.0) {
+    if (_focusItem == null || topOverlap == 0.0) {
       return;
     }
 
@@ -144,10 +144,8 @@ class TimelineRenderObject extends RenderBox {
     //touchEntry(null);
     for (TapTarget bubble in _tapTargets.reversed) {
       if (bubble.rect.contains(screenOffset)) {
-        if (touchBubble != null) {
-          touchBubble(bubble);
-        }
-        return true;
+        touchBubble(bubble);
+              return true;
       }
     }
     //touchBubble(null);
@@ -283,12 +281,10 @@ class TimelineRenderObject extends RenderBox {
           Offset(
               bubblePadding, bubbleHeight / 2.0 - labelParagraph.height / 2.0));
       canvas.restore();
-      if (item.children != null) {
-        /// Draw the other elements in the hierarchy.
-        drawItems(context, offset, item.children, x + Timeline.depthOffset,
-            scale, depth + 1);
-      }
-    }
+      /// Draw the other elements in the hierarchy.
+      drawItems(context, offset, item.children, x + Timeline.depthOffset,
+          scale, depth + 1);
+        }
   }
 
   /// Given a width and a height, design a path for the bubble that lies behind events' labels

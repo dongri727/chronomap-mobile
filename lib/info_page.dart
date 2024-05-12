@@ -31,8 +31,6 @@ class InfoPage extends StatelessWidget {
               AppLocalizations.of(context)!.infoG),
               CustomTextContainer(textContent: AppLocalizations.of(context)!.infoH),
 
-
-
             ],
           ),
         ),

@@ -30,7 +30,7 @@ class _TabWidgetState extends State<TabWidget> {
     });
   }
 
-  // splash画面を表示時間を調整するために、下のinitstateを追加します。
+  // splash画面を表示時間を調整するために、下のinstateを追加します。
   @override
   void initState() {
     super.initState();

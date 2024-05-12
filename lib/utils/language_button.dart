@@ -38,6 +38,8 @@ class LanguageDropdownButtonState extends State<LanguageDropdownButton> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('languageCode', languageCode);
 
+    if (!mounted) return;
+
     MyApp.setLocale(context, newLocale); // MyApp内のsetLocaleメソッドを呼び出し
 
     // setStateを呼び出して、UIを更新
