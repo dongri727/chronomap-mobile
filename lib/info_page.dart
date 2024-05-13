@@ -30,7 +30,7 @@ class InfoPage extends StatelessWidget {
               CustomTextContainer(textContent:
               AppLocalizations.of(context)!.infoG),
               CustomTextContainer(textContent: AppLocalizations.of(context)!.infoH),
-
+              const LaunchUrlContainer(),
             ],
           ),
         ),
