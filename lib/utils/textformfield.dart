@@ -16,9 +16,9 @@ class TffFormat extends StatelessWidget {
     return ShadowedContainer(
       child: TextFormField(
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 16,
-            color: Colors.green),
+            color: Colors.green[900]),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(5.0),
           hintText: hintText,

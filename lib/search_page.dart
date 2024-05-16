@@ -22,9 +22,7 @@ class SearchPageState extends State<SearchPage> {
       // 文字列をリストに変換してkeywords引数を渡す
       List<String> location = keywords.split(',').map((e) => e.trim()).toList();
       listPrincipal = await client.principal.getPrincipal(keywords: location);
-      print("Getting principal with keywords: $location");
       principalIds = listPrincipal.map((item) => item.id as int).toList();
-      print(listPrincipal.toString());
       setState(() {}); // データの更新をUIに反映させる
     } on Exception catch (e) {
       debugPrint('$e');

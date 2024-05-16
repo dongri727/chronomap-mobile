@@ -46,8 +46,6 @@ class LanguageDropdownButtonState extends State<LanguageDropdownButton> {
     setState(() {
       currentLanguage = languageCode;  // 現在の言語を更新
     });
-
-    print('現在のlanguageCodeは、$languageCode');
   }
 
   @override

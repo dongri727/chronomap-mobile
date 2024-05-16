@@ -73,7 +73,6 @@ class LaunchUrlContainer extends StatelessWidget {
       await launchUrl(url);
     } else {
       // エラーハンドリング: URLを開けない場合の処理
-      print('Could not launch $url');
     }
   }
 

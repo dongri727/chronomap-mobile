@@ -187,10 +187,7 @@ class Timeline {
     return _height == 0.0 ? 1.0 : _height / (end - start);
   }
 
-
-  /// This function will load from firestore,
   /// and populate all the [TimelineEntry]s.
-  ///
   List<Principal> _principal = [];
 
   List<Principal> get listPrincipal => _principal;
@@ -205,42 +202,33 @@ class Timeline {
     for (var principal in _principal){
 
       /// Sanity check.
-      if (principal != null) {
-        /// Create the current entry and fill in the current date if it's
-        /// an `material`, or look for the `start` property if it's a `Position` instead.
-        /// Some entries will have a `start` element, but not an `end` specified.
-        TimelineEntry timelineEntry = TimelineEntry();
-        timelineEntry.type = TimelineEntryType.incident;
-        dynamic year = principal.point;
-        timelineEntry.start = year is int ? year.toDouble() : year;
+      /// Create the current entry and fill in the current date if it's
+      /// an `material`, or look for the `start` property if it's a `Position` instead.
+      /// Some entries will have a `start` element, but not an `end` specified.
+      TimelineEntry timelineEntry = TimelineEntry();
+      timelineEntry.type = TimelineEntryType.incident;
+      dynamic year = principal.point;
+      timelineEntry.start = year is int ? year.toDouble() : year;
 
-        TickColors tickColors = TickColors()
-          ..long = Colors.black
-          ..short = Colors.black
-          ..text = Colors.grey
-        //..start = timelineEntry.start
-          ..screenY = 0.0;
+      TickColors tickColors = TickColors()
+        ..long = Colors.black
+        ..short = Colors.black
+        ..text = Colors.grey
+      //..start = timelineEntry.start
+        ..screenY = 0.0;
 
-        _tickColors.add(tickColors);
+      _tickColors.add(tickColors);
 
-        timelineEntry.end = timelineEntry.start; //消したら怒られた
+      timelineEntry.end = timelineEntry.start; //消したら怒られた
 
 
-        /// The label is a brief description for the current entry.
-        /// labelの表示
-        timelineEntry.name = "${principal.annee} ${principal.affair} ${principal.precise}";
-        //timelineEntry.name = "${principal.annee}-${principal.month}-${principal.day} ${principal.affair} ${principal.location} ${principal.precise}";
-        //}
+      /// The label is a brief description for the current entry.
+      /// labelの表示
+      timelineEntry.name = "${principal.annee} ${principal.affair} ${principal.precise}";
 
-        /// Add this entry to the list.
-        allEntries.add(timelineEntry);
-      }
-    }
-
-/*    /// sort the full list so they are in order of oldest to newest
-    allEntries.sort((TimelineEntry a, TimelineEntry b) {
-      return a.start.compareTo(b.start);
-    });*/
+      /// Add this entry to the list.
+      allEntries.add(timelineEntry);
+        }
 
     _timeMin = double.maxFinite;
     _timeMax = -double.maxFinite;
@@ -250,7 +238,6 @@ class Timeline {
 
     /// Build up hierarchy (Position are grouped into "Spanning Position" and Events are placed into the Position they belong to).
     /// 消したら表示されない。
-    TimelineEntry? previous;
     for (TimelineEntry entry in allEntries) {
       if (entry.start < _timeMin) {
         _timeMin = entry.start;
@@ -258,11 +245,6 @@ class Timeline {
       if (entry.end > _timeMax) {
         _timeMax = entry.end;
       }
-/*      if (previous != null) {
-        previous.next = entry;
-      }
-      entry.previous = previous;
-      previous = entry;*/
 
       TimelineEntry? parent;
       double minTimeline = double.maxFinite;
@@ -279,7 +261,7 @@ class Timeline {
       if (parent != null) {
         entry.parent = parent;
         parent.children != [];
-        parent.children!.add(entry);
+        parent.children.add(entry);
       } else {
         /// no parent, so this is a root entry.
         _entries.add(entry);
@@ -337,7 +319,7 @@ class Timeline {
         bool animate = false}) {
     /// Calculate the current height.
     if (height != double.maxFinite) {
-      if (_height == 0.0 && _entries != null && _entries.isNotEmpty) {
+      if (_height == 0.0 && _entries.isNotEmpty) {
         double scale = height / (_end - _start);
         _start = _start - padding.top / scale;
         _end = _end + padding.bottom / scale;
@@ -737,7 +719,7 @@ class Timeline {
         _labelX = lx;
       }
 
-      if (item.children != null && item.isVisible) {
+      if (item.isVisible) {
         /// Advance the rest of the hierarchy.
         if (_advanceItems(item.children, x + lineSpacing + lineWidth, scale,
             elapsed, animate, depth + 1)) {

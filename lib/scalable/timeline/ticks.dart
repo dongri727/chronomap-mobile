@@ -78,15 +78,6 @@ class Ticks {
     double y1 = timeline.renderStart * s;
     double y2 = timeline.renderStart * s;
 
-/*      /// y-coordinate for the starting and ending element.
-      double y1 = (tickColors.first.start - timeline.renderStart) * s;
-      double y2 = (tickColors.last.start - timeline.renderStart) * s;*/
-
-    /// Fill Background.
-    ui.Paint paint = ui.Paint()
-/*        ..shader = ui.Gradient.linear(
-            ui.Offset(0.0, y1), ui.Offset(0.0, y2), colors, stops)*/
-      ..style = ui.PaintingStyle.fill;
 
     /// Fill in top/bottom if necessary.
     if (y1 > offset.dy) {

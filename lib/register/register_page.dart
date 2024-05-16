@@ -90,7 +90,6 @@ class RegisterPage extends StatelessWidget {
                       hintText: "date 1-31 or 0",
                       onChanged: (value) {
                         model.setNewDay(value);
-                        print(value);
                       },
                     ),
                   ),
@@ -112,7 +111,6 @@ class RegisterPage extends StatelessWidget {
                       },
                       onSelected: (String selection) {
                         model.setSelectedCountry(selection);
-                        print(selection);
                       },
                     ),
                   ),
@@ -126,7 +124,6 @@ class RegisterPage extends StatelessWidget {
                       hintText: "",
                       onChanged: (text) {
                         model.setNewName(text);
-                        print(text);
                       },
                     ),
                   ),

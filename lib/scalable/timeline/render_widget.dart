@@ -219,7 +219,6 @@ class TimelineRenderObject extends RenderBox {
         continue;
       }
 
-      double legOpacity = item.legOpacity * item.opacity;
       Offset entryOffset = Offset(x + Timeline.lineWidth / 2.0, item.y);
 
       /// Draw the small circle on the left side of the Timeline.
@@ -227,13 +226,13 @@ class TimelineRenderObject extends RenderBox {
           entryOffset,
           Timeline.edgeRadius,
           Paint()
-            ..color = (item.accent ?? lineColors[depth % lineColors.length])
+            ..color = (item.accent)
                 .withOpacity(item.opacity));
-      if (legOpacity > 0.0) {
+/*      if (legOpacity > 0.0) {
         Paint legPaint = Paint()
-          ..color = (item.accent ?? lineColors[depth % lineColors.length])
+          ..color = (item.accent)
               .withOpacity(legOpacity);
-      }
+      }*/
 
       const double maxLabelWidth = 300.0;
       const double bubblePadding = 8.0;
@@ -267,7 +266,7 @@ class TimelineRenderObject extends RenderBox {
       canvas.drawPath(
           bubble,
           Paint()
-            ..color = (item.accent ?? lineColors[depth % lineColors.length])
+            ..color = (item.accent)
                 .withOpacity(item.opacity * item.labelOpacity));
       canvas
           .clipRect(Rect.fromLTWH(bubblePadding, 0.0, textWidth, bubbleHeight));

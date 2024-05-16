@@ -36,7 +36,6 @@ class TimelineWidgetState extends State<TimelineWidget> {
   /// When touching a bubble on the [Timeline] keep track of which
   /// element has been touched in order to move to the [article_widget].
   TapTarget? _touchedBubble;
-  TimelineEntry? _touchedEntry;
 
   /// Syntactic-sugar-getter.
   Timeline get timeline => widget.timeline;
@@ -83,7 +82,6 @@ class TimelineWidgetState extends State<TimelineWidget> {
   }
 
   onTouchEntry(TimelineEntry entry) {
-    _touchedEntry = entry;
   }
 
   void _tapDown(TapDownDetails details) {
