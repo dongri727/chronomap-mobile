@@ -1,5 +1,6 @@
 import 'package:acorn_client/acorn_client.dart';
 import 'package:chronomap_mobile/register/register_page.dart';
+import 'package:chronomap_mobile/utils/game_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'serverpod_client.dart';
 import 'utils/countries_list.dart';
@@ -32,6 +33,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
   int incorrectAnswer = 0;
   bool answered = false;
   bool selectCountry = false;
+  bool bottomsheet = false;
 
   final List<Color> backgroundColors =
       List.filled(5, Colors.grey.withOpacity(0.15));
@@ -63,8 +65,9 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                   child: Text(AppLocalizations.of(context)!.gameAlertC),
                   onPressed: () {
                     Navigator.push<String>(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RegisterPage()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()));
                   },
                 ),
                 TextButton(
@@ -117,7 +120,9 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
         _resetGame();
       });
     } else {
-      _showRetryOrNewGameDialog();
+      // _showRetryOrNewGameDialog();
+      _showBottomSheet();
+      bottomsheet = true;
     }
   }
 
@@ -151,7 +156,58 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
               ),
             ],
           );
-        }
+        });
+  }
+
+  void _showBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.3),
+      isDismissible: false,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 250,
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.gameDialogA,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  AppLocalizations.of(context)!.gameDialogB,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: 20),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _retry(); // 同じカードで再挑戦
+                      bottomsheet = false;
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.gameDialogC,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    )),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _resetGame(); // 新しいゲームを開始
+                    bottomsheet = false;
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.gameDialogD,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -185,13 +241,10 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
   initState() {
     super.initState();
     getCountries();
-    _animationController = AnimationController(
-      duration: const Duration(seconds: 3),
-        vsync: this);
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeIn
-    );
+    _animationController =
+        AnimationController(duration: const Duration(seconds: 3), vsync: this);
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animationController.reverse();
@@ -217,7 +270,8 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text(AppLocalizations.of(context)!.gameA,
+                  child: Text(
+                    AppLocalizations.of(context)!.gameA,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
@@ -258,27 +312,31 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     !answered
-                        ? Text(AppLocalizations.of(context)!.gameB,
+                        ? Text(
+                            AppLocalizations.of(context)!.gameB,
                             style: const TextStyle(fontSize: 18),
                           )
                         : Column(
-                          children: [
-                            Text(
+                            children: [
+                              Text(
                                 '👍: $correctAnswer / 👎: $incorrectAnswer',
                                 style: const TextStyle(fontSize: 18),
                               ),
-                            FadeTransition(
-                              opacity: _animation,
-                              child: const Center(
-                                child: Text(
-                                  'Perfect!',
-                                  style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.green),
+                              if(!bottomsheet) FadeTransition(
+                                opacity: _animation,
+                                child: const Center(
+                                  child: Text(
+                                    'Perfect!',
+                                    style: TextStyle(
+                                        fontSize: 48,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green),
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                    const SizedBox(height: 40),
+                              )
+                            ],
+                          ),
+                    const SizedBox(height: 20),
                     Material(
                       child: ReorderableListView(
                         shrinkWrap: true,
@@ -316,15 +374,18 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                       ),
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
-                       ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey[600],
-                                foregroundColor: Colors.white,
-                                elevation: 2),
-                            onPressed: _answer,
-                            child: const Text('Answer'))
+                    if(!bottomsheet)ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[600],
+                            foregroundColor: Colors.white,
+                            elevation: 2),
+                        onPressed: _answer,
+                        child: const Text('Answer')),
+                    if(bottomsheet)const SizedBox(
+                      height: 120,
+                    )
                   ],
                 )
               : const Center(
