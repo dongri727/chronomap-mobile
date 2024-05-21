@@ -1,6 +1,8 @@
 import "package:acorn_client/acorn_client.dart";
+import "package:chronomap_mobile/utils/autocomplete_clear.dart";
 import "package:flutter/material.dart";
 import "../../serverpod_client.dart";
+import "../../utils/autocomplete.dart";
 import '../bloc_provider.dart';
 import 'menu_data.dart';
 import "menu_section.dart";
@@ -27,6 +29,7 @@ class ScalableState extends State<Scalable> {
   List<int> principalIds = [];
 
   TextEditingController searchController = TextEditingController();
+  //bool selectCountry = false;
 
   Future<void> fetchPrincipalByLocation(String keywords) async {
     try {
@@ -56,6 +59,12 @@ class ScalableState extends State<Scalable> {
     for (var country in countries) {
       options.add(country['name']);
     }
+  }
+
+  void resetText() {
+    setState(() {
+      searchController.clear();
+    });
   }
 
   @override
@@ -105,34 +114,14 @@ class ScalableState extends State<Scalable> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(AppLocalizations.of(context)!.scalableA),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Autocomplete<String>(
-                            optionsBuilder: (TextEditingValue textEditingValue) {
-                              return options.where((String option) {
-                                if (textEditingValue.text.isNotEmpty) {
-                                  return option.contains(textEditingValue.text[0]
-                                      .toUpperCase() +
-                                      textEditingValue.text.substring(1).toLowerCase());
-                                } else {
-                                  return option.contains(textEditingValue.text);
-                                }
-                              });
-                            },
-                            onSelected: (String selection) {
-                              searchController.text = selection;
-                            },
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            await fetchPrincipalByLocation(searchController.text);
-                            timeline.gatherEntries(listPrincipal);
-                          },
-                          icon: const Icon(Icons.search),
-                        )
-                      ],
+                    AutocompleteWithClear(
+                      options: options,
+                      searchController: searchController,
+                      onSearch: () async {
+                        await fetchPrincipalByLocation(searchController.text);
+                        timeline.gatherEntries(listPrincipal);
+                      },
+                      onPressed: resetText,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 40.0),

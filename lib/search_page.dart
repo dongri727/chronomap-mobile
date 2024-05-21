@@ -1,3 +1,5 @@
+import 'package:chronomap_mobile/utils/autocomplete.dart';
+import 'package:chronomap_mobile/utils/autocomplete_clear.dart';
 import 'package:flutter/material.dart';
 import 'package:acorn_client/acorn_client.dart';
 import 'serverpod_client.dart';
@@ -16,6 +18,8 @@ class SearchPageState extends State<SearchPage> {
   List<int> principalIds = [];
   TextEditingController searchController =
       TextEditingController(); // 検索キーワードを入力するためのController
+  //bool selectCountry = false; //
+
 
   Future<void> fetchPrincipalByLocation(String keywords) async {
     try {
@@ -34,6 +38,14 @@ class SearchPageState extends State<SearchPage> {
     for (var country in countries) {
       options.add(country['name']);
     }
+  }
+
+  void resetSearch() {
+    setState(() {
+      searchController.clear();
+      listPrincipal = [];
+      principalIds = [];
+    });
   }
 
   @override
@@ -57,33 +69,13 @@ class SearchPageState extends State<SearchPage> {
               child: Column(
                 children: [
                   Text(AppLocalizations.of(context)!.search),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Autocomplete<String>(
-                            optionsBuilder: (TextEditingValue textEditingValue) {
-                              return options.where((String option) {
-                                if (textEditingValue.text.isNotEmpty) {
-                                  return option.contains(textEditingValue.text[0]
-                                          .toUpperCase() +
-                                      textEditingValue.text.substring(1).toLowerCase());
-                                } else {
-                                  return option.contains(textEditingValue.text);
-                                }
-                              });
-                            },
-                            onSelected: (String selection) {
-                              searchController.text = selection;
-                            },
-                          ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          fetchPrincipalByLocation(searchController.text);
-                        },
-                        icon: const Icon(Icons.search),
-                      )
-                    ],
+                  AutocompleteWithClear(
+                    options: options,
+                    searchController: searchController,
+                    onSearch: () {
+                      fetchPrincipalByLocation(searchController.text);
+                    },
+                    onPressed: resetSearch,
                   ),
                 ],
               ),

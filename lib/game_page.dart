@@ -1,6 +1,6 @@
 import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_mobile/register/register_page.dart';
-import 'package:chronomap_mobile/utils/game_bottom_sheet.dart';
+import 'package:chronomap_mobile/utils/autocomplete.dart';
+import 'package:chronomap_mobile/utils/game_under5_sheet.dart';
 import 'package:flutter/material.dart';
 import 'serverpod_client.dart';
 import 'utils/countries_list.dart';
@@ -33,7 +33,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
   int incorrectAnswer = 0;
   bool answered = false;
   bool selectCountry = false;
-  bool bottomsheet = false;
+  bool bottomSheet = false;
 
   final List<Color> backgroundColors =
       List.filled(5, Colors.grey.withOpacity(0.15));
@@ -57,30 +57,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.gameAlertA),
-              content: Text(AppLocalizations.of(context)!.gameAlertB),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.gameAlertC),
-                  onPressed: () {
-                    Navigator.push<String>(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()));
-                  },
-                ),
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.gameAlertD),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // ダイアログを閉じる
-                    setState(() {
-                      selectCountry = false; // 国を選ぶステップに戻る
-                    });
-                  },
-                ),
-              ],
-            );
+            return const GameUnder5();
           },
         );
       } else {
@@ -122,45 +99,13 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
     } else {
       // _showRetryOrNewGameDialog();
       _showBottomSheet();
-      bottomsheet = true;
+      bottomSheet = true;
     }
-  }
-
-  void _showRetryOrNewGameDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              AlertDialog(
-                backgroundColor: Colors.white.withOpacity(0.5),
-                title: Text(AppLocalizations.of(context)!.gameDialogA),
-                content: Text(AppLocalizations.of(context)!.gameDialogB),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _retry(); // 同じカードで再挑戦
-                    },
-                    child: Text(AppLocalizations.of(context)!.gameDialogC),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _resetGame(); // 新しいゲームを開始
-                    },
-                    child: Text(AppLocalizations.of(context)!.gameDialogD),
-                  ),
-                ],
-              ),
-            ],
-          );
-        });
   }
 
   void _showBottomSheet() {
     showModalBottomSheet(
+      backgroundColor: Colors.white.withOpacity(0.5),
       context: context,
       barrierColor: Colors.black.withOpacity(0.3),
       isDismissible: false,
@@ -174,33 +119,33 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
               children: [
                 Text(
                   AppLocalizations.of(context)!.gameDialogA,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 Text(
                   AppLocalizations.of(context)!.gameDialogB,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       _retry(); // 同じカードで再挑戦
-                      bottomsheet = false;
+                      bottomSheet = false;
                     },
                     child: Text(
                       AppLocalizations.of(context)!.gameDialogC,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     )),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                     _resetGame(); // 新しいゲームを開始
-                    bottomsheet = false;
+                    bottomSheet = false;
                   },
                   child: Text(
                     AppLocalizations.of(context)!.gameDialogD,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
               ],
@@ -235,6 +180,12 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
     answered = false;
     options.shuffle();
     setState(() {});
+  }
+
+  void resetText() {
+    setState(() {
+      searchController.clear();
+    });
   }
 
   @override
@@ -278,21 +229,9 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 20.0, horizontal: 80.0),
-                  child: Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      return values.where((String value) {
-                        if (textEditingValue.text.isNotEmpty) {
-                          return value.contains(textEditingValue.text[0]
-                                  .toUpperCase() +
-                              textEditingValue.text.substring(1).toLowerCase());
-                        } else {
-                          return value.contains(textEditingValue.text);
-                        }
-                      });
-                    },
-                    onSelected: (String selection) {
-                      searchController.text = selection;
-                    },
+                  child: GameAutocompleteFormat(
+                    value: values,
+                    searchController: searchController,
                   ),
                 ),
                 const SizedBox(
@@ -322,7 +261,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                                 '👍: $correctAnswer / 👎: $incorrectAnswer',
                                 style: const TextStyle(fontSize: 18),
                               ),
-                              if(!bottomsheet) FadeTransition(
+                              if(!bottomSheet) FadeTransition(
                                 opacity: _animation,
                                 child: const Center(
                                   child: Text(
@@ -376,14 +315,14 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                     const SizedBox(
                       height: 20,
                     ),
-                    if(!bottomsheet)ElevatedButton(
+                    if(!bottomSheet)ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey[600],
                             foregroundColor: Colors.white,
                             elevation: 2),
                         onPressed: _answer,
                         child: const Text('Answer')),
-                    if(bottomsheet)const SizedBox(
+                    if(bottomSheet)const SizedBox(
                       height: 120,
                     )
                   ],
